@@ -12,7 +12,7 @@ export function Footer() {
               <Github className="h-6 w-6 hover:text-accent transition-colors" />
             </a>
           </Link>
-          <Link href="https://www.linkedin.com/in/sunil-paudel-9a99411ab/" passHref legacyBehavior>
+          <Link href="https://www.linkedin.com/in/sunil-paudel-143043184/" passHref legacyBehavior>
             <a target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
               <Linkedin className="h-6 w-6 hover:text-accent transition-colors" />
             </a>
