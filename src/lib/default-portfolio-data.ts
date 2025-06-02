@@ -30,7 +30,7 @@ const projects: PortfolioData['projects'] = [
   {
     name: "Portfolio Generator (Client: Ausbizz Consultant)",
     description: "Working as a full stack developer in an agile environment to develop a portfolio generator app. Working along with other Developers, BAs and Scrum master to understand the business requirement and delivery the project at the end of sprint. The project is deployed on an AWS cloud (https://portfolio.lvtpeople.com.au)--> this project was completed during bootcamp with Aus Bizz client. Technologies in this application are React.js, Next.js 13, Adonis.js, Material UI, GitHub",
-    link: "https://portfolio.lvtpeople.com.au",
+    link: undefined, // Removed link here
     image: "https://placehold.co/600x400.png",
     imageHint: "portfolio app aws"
   },
