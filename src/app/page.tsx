@@ -39,34 +39,37 @@ export default function PortfolioPage() {
         const parsedLSData = JSON.parse(savedData) as PortfolioData;
         
         const dataToSet: PortfolioData = {
-          ...currentDefaults, // Base with new defaults
-
-          name: (parsedLSData.name && parsedLSData.name !== "Your Name" && parsedLSData.name !== "Sunil") 
+          // For name, title, and contact info, preserve user edits unless they match old defaults
+          name: (parsedLSData.name && parsedLSData.name !== "Your Name" && parsedLSData.name !== "Sunil" && parsedLSData.name !== "SUNIL PAUDEL" && parsedLSData.name !== "Sunil Paudel (Sunny)") 
                 ? parsedLSData.name 
                 : currentDefaults.name,
 
-          title: (parsedLSData.title && parsedLSData.title !== "Full-Stack Developer | UI/UX Enthusiast") 
+          title: (parsedLSData.title && parsedLSData.title !== "Full-Stack Developer | UI/UX Enthusiast" && parsedLSData.title !== "Savvy IT Aspirant" && parsedLSData.title !== "Full-Stack Developer Graduate") 
                  ? parsedLSData.title 
                  : currentDefaults.title,
-
-          aboutMe: parsedLSData.aboutMe ?? currentDefaults.aboutMe,
-          skills: parsedLSData.skills ?? currentDefaults.skills,
-          projects: parsedLSData.projects ?? currentDefaults.projects,
           
           contactInfo: {
             ...currentDefaults.contactInfo, 
-            email: (parsedLSData.contactInfo?.email && parsedLSData.contactInfo.email !== "your.email@example.com") 
+            email: (parsedLSData.contactInfo?.email && parsedLSData.contactInfo.email !== "your.email@example.com" && parsedLSData.contactInfo.email !== "paudelsunil16@gmail.com") 
                    ? parsedLSData.contactInfo.email 
                    : currentDefaults.contactInfo.email,
             phone: parsedLSData.contactInfo?.phone ?? currentDefaults.contactInfo.phone,
           },
 
+          // For aboutMe, skills, and projects, always use the current defaults (resume-based)
+          // if localStorage data exists, to reflect a full refresh from the latest resume.
+          aboutMe: currentDefaults.aboutMe,
+          skills: currentDefaults.skills,
+          projects: currentDefaults.projects,
+          
+          // Profile image handling: prefer LS data, but update if LS is placeholder and default is real image
           profileImage: parsedLSData.profileImage ?? currentDefaults.profileImage,
           profileImageHint: parsedLSData.profileImageHint ?? currentDefaults.profileImageHint,
         };
 
-        // Special handling for profile image placeholder update (keep this logic)
-        if (parsedLSData.profileImage && parsedLSData.profileImage.includes('placehold.co') && currentDefaults.profileImage) {
+        // Special handling to update profile image if LS has a placeholder and currentDefaults has a real image
+        if (parsedLSData.profileImage && parsedLSData.profileImage.includes('placehold.co') && 
+            currentDefaults.profileImage && !currentDefaults.profileImage.includes('placehold.co')) {
           dataToSet.profileImage = currentDefaults.profileImage;
           dataToSet.profileImageHint = currentDefaults.profileImageHint;
         }
@@ -77,7 +80,7 @@ export default function PortfolioPage() {
         setPortfolioData(currentDefaults); // Fallback to new defaults if LS is corrupt
       }
     } else {
-      setPortfolioData(currentDefaults); // No LS data, use new defaults
+      setPortfolioData(currentDefaults); // No LS data, use new defaults (resume data)
     }
   }, []);
 
@@ -117,7 +120,7 @@ export default function PortfolioPage() {
         name: projectValues.name,
         description: projectValues.description,
         link: projectValues.link,
-        image: projectValues.image || 'https://placehold.co/600x400.png?text=Project',
+        image: projectValues.image || 'https://placehold.co/600x400.png',
         imageHint: projectValues.imageHint || 'project related'
       };
 
@@ -194,4 +197,3 @@ export default function PortfolioPage() {
     </div>
   );
 }
-
