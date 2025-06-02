@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
+import type { PortfolioData } from '@/lib/portfolio-types';
 import { Button } from '@/components/ui/button';
 import { UserCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';

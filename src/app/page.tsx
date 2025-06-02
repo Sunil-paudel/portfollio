@@ -14,7 +14,6 @@ import ContactForm from '@/components/ContactForm';
 import { Footer } from '@/components/Footer';
 import { EditProjectModal } from '@/components/modals/EditProjectModal';
 import { useToast } from '@/hooks/use-toast';
-import { ChatbotWidget } from '@/components/ChatbotWidget'; 
 
 type ProjectType = PortfolioData['projects'][number] & { image?: string; imageHint?: string };
 
@@ -149,10 +148,6 @@ export default function PortfolioPage() {
       </main>
       <Footer />
       
-      {isClient && portfolioData && (
-        <ChatbotWidget portfolioData={portfolioData} />
-      )}
-
       {isEditProjectModalOpen && (
          <EditProjectModal
             isOpen={isEditProjectModalOpen}

@@ -1,5 +1,5 @@
 
-import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
+import type { PortfolioData } from '@/lib/portfolio-types';
 import { ProjectCard } from './ProjectCard';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, Layers } from 'lucide-react';

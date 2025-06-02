@@ -1,5 +1,5 @@
 
-import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
+import type { PortfolioData } from '@/lib/portfolio-types';
 
 // Function to sanitize project names for use as filenames
 const sanitizeProjectName = (name: string): string => {

@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
+import type { PortfolioData } from '@/lib/portfolio-types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Code2, Database, Cloud, Paintbrush, Smartphone, Server, Settings, Zap, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react';
