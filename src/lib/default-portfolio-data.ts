@@ -39,6 +39,20 @@ export const defaultPortfolioData: PortfolioData = {
       link: "https://example.com/blog",
       image: "https://placehold.co/600x400.png?text=Personal+Blog",
       imageHint: "writing online"
+    },
+    {
+      name: "LinkedIn Project 1 (Edit Me)",
+      description: "Please replace this with the description of your first project from LinkedIn. Include key responsibilities, technologies used, and achievements.",
+      link: "https://your-project-link-here.com", // Optional: Add link if available
+      image: "https://placehold.co/600x400.png?text=LinkedIn+Project+1",
+      imageHint: "professional project" // Optional: Add 1-2 keywords for image search
+    },
+    {
+      name: "LinkedIn Project 2 (Edit Me)",
+      description: "Please replace this with the description of your second project from LinkedIn. Detail your role and impact.",
+      link: "", // Optional: Add link if available
+      image: "https://placehold.co/600x400.png?text=LinkedIn+Project+2",
+      imageHint: "work experience" // Optional: Add 1-2 keywords for image search
     }
   ],
   contactInfo: {
