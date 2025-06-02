@@ -2,6 +2,7 @@
 'use server';
 
 import { z } from 'zod';
+import nodemailer from 'nodemailer';
 
 // Define the schema for contact form values, matching the client-side schema
 const contactFormSchema = z.object({
@@ -13,7 +14,6 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export async function sendContactMessage(data: ContactFormValues): Promise<{ success: boolean; message?: string; error?: string }> {
-  // Validate the data on the server side as well
   const parsedData = contactFormSchema.safeParse(data);
 
   if (!parsedData.success) {
@@ -22,62 +22,61 @@ export async function sendContactMessage(data: ContactFormValues): Promise<{ suc
   }
 
   const { name, email, message } = parsedData.data;
-  const recipientEmail = "paudelsunil16@gmail.com"; // Target email address
+  const recipientEmail = "paudelsunil16@gmail.com"; 
 
-  console.log(`Simulating sending email:
-    To: ${recipientEmail}
-    From: ${name} <${email}>
-    Subject: New Contact Form Message from ${name}
-    Message:
-    ${message}
-  `);
+  // Nodemailer transporter setup
+  // Ensure you have set these environment variables in your .env file
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL } = process.env;
+  const smtpSecure = process.env.SMTP_SECURE === 'true';
 
-  // **IMPORTANT**: To actually send an email, you would integrate an email service here.
-  // For example, using Nodemailer with an SMTP provider, or services like Resend, SendGrid, AWS SES, etc.
-  // This typically involves:
-  // 1. Installing the necessary library (e.g., `npm install resend` or `npm install nodemailer`).
-  // 2. Setting up API keys or credentials, usually in environment variables (e.g., process.env.RESEND_API_KEY).
-  // 3. Writing the code to send the email using the chosen library.
 
-  // Example with Resend (pseudo-code, assuming Resend is set up):
-  /*
-  import { Resend } from 'resend';
-
-  if (!process.env.RESEND_API_KEY) {
-    console.error('Resend API key is not configured.');
-    return { success: false, error: "Email service is not configured on the server." };
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_FROM_EMAIL) {
+    console.error('SMTP environment variables are not properly configured.');
+    return { 
+      success: false, 
+      error: "Email service is not configured on the server. Admins: Please check SMTP environment variables." 
+    };
   }
-  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: parseInt(SMTP_PORT, 10),
+    secure: smtpSecure, // true for 465, false for other ports like 587 (TLS)
+    auth: {
+      user: SMTP_USER, 
+      pass: SMTP_PASS, 
+    },
+  });
+
+  const mailOptions = {
+    from: `"${name}" <${SMTP_FROM_EMAIL}>`, // Sender address (use a verified address or your SMTP_USER)
+    replyTo: email, // User's email as reply-to
+    to: recipientEmail, // List of receivers
+    subject: `New Contact Form Message from ${name} (Portfolio)`, // Subject line
+    text: `You have received a new message from your portfolio contact form:\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`, // Plain text body
+    html: `
+      <h1>New Message via Portfolio Contact Form</h1>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+    `, // HTML body
+  };
 
   try {
-    const { data: emailData, error: emailError } = await resend.emails.send({
-      from: 'YourPortfolio <your-verified-sending-email@yourdomain.com>', // Replace with your verified sending email
-      to: [recipientEmail],
-      subject: `New Contact Form Message from ${name}`,
-      html: `
-        <h1>New Message via Portfolio Contact Form</h1>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
-    });
-
-    if (emailError) {
-      console.error("Resend email sending error:", emailError);
-      return { success: false, error: "Failed to send message due to a server error." };
-    }
-
-    console.log("Email sent successfully via Resend:", emailData);
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Message sent: %s", info.messageId);
     return { success: true, message: "Message sent successfully!" };
-
   } catch (error) {
-    console.error("Generic email sending error:", error);
-    return { success: false, error: "An unexpected error occurred while trying to send the message." };
+    console.error("Error sending email with Nodemailer:", error);
+    // It's good practice to avoid exposing detailed error messages to the client.
+    // Log the detailed error on the server and return a generic error to the client.
+    let clientErrorMessage = "Failed to send message due to a server error.";
+    if (error instanceof Error && error.message.includes('Invalid login')) {
+        clientErrorMessage = "Failed to send message: Authentication error with email server. Admins: Please check SMTP credentials.";
+    } else if (error instanceof Error && error.message.includes('ENOTFOUND') ) {
+         clientErrorMessage = "Failed to send message: Could not connect to email server. Admins: Please check SMTP host/port.";
+    }
+    return { success: false, error: clientErrorMessage };
   }
-  */
-
-  // For now, we'll just simulate success after a short delay.
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, message: "Message sent successfully (simulated)!" };
 }
