@@ -1,51 +1,90 @@
-
 "use client";
 
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import React, { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 import { Mail, Send, Loader2 } from "lucide-react";
-import { sendContactMessage } from "@/app/actions/contact-actions";
 
-const contactFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters long"),
-  email: z.string().email("Invalid email address"),
-  message: z.string().min(10, "Message must be at least 10 characters long"),
-});
-
-type ContactFormValues = z.infer<typeof contactFormSchema>;
-
-export function ContactForm() {
+export default function ContactForm() {
   const { toast } = useToast();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
+
+  // Controlled form state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
   });
 
-  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
-    const result = await sendContactMessage(data);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMessageSent, setIsMessageSent] = useState(false);
 
-    if (result.success) {
-      toast({
-        title: "Message Sent!",
-        description: result.message || "Thanks for reaching out. I'll get back to you soon.",
+  // Simple client-side validation errors state
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  // Basic validation
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = "Invalid email address";
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    setIsMessageSent(false);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      reset();
-    } else {
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        toast({
+          title: "Message Sent!",
+          description: result.message,
+        });
+        setFormData({ name: "", email: "", message: "" });
+        setIsMessageSent(true);
+        setErrors({});
+      } else {
+        toast({
+          title: "Error Sending Message",
+          description: result.error || "Something went wrong",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Error Sending Message",
-        description: result.error || "Failed to send the message. Please try again.",
+        title: "Network Error",
+        description: "Failed to send message. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -53,62 +92,91 @@ export function ContactForm() {
     <section id="contact" className="py-16 sm:py-24 bg-muted">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-           <h2 className="text-4xl font-headline font-bold text-primary mb-4 flex items-center justify-center gap-3">
+          <h2 className="text-4xl font-headline font-bold text-primary mb-4 flex items-center justify-center gap-3">
             <Mail className="w-10 h-10" /> Get In Touch
           </h2>
           <p className="text-lg text-foreground max-w-xl mx-auto">
             Have a question or want to work together? Fill out the form below.
           </p>
         </div>
+
         <div className="max-w-2xl mx-auto bg-card p-8 rounded-xl shadow-xl">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={onSubmit} className="space-y-6" noValidate>
+            {isMessageSent && (
+              <p className="text-green-600 mb-4 text-center font-semibold">
+                Message has been sent!
+              </p>
+            )}
+
             <div>
-              <Label htmlFor="name" className="text-card-foreground">Your Name</Label>
+              <Label htmlFor="name" className="text-card-foreground">
+                Your Name
+              </Label>
               <Input
                 id="name"
+                name="name"
                 type="text"
-                {...register("name")}
-                className={`mt-1 ${errors.name ? 'border-destructive' : ''}`}
                 placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
                 disabled={isSubmitting}
+                className={errors.name ? "border-destructive" : ""}
               />
-              {errors.name && <p className="text-sm text-destructive mt-1">{errors.name.message}</p>}
+              {errors.name && (
+                <p className="text-sm text-destructive mt-1">{errors.name}</p>
+              )}
             </div>
 
             <div>
-              <Label htmlFor="email" className="text-card-foreground">Your Email</Label>
+              <Label htmlFor="email" className="text-card-foreground">
+                Your Email
+              </Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
-                {...register("email")}
-                className={`mt-1 ${errors.email ? 'border-destructive' : ''}`}
                 placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
                 disabled={isSubmitting}
+                className={errors.email ? "border-destructive" : ""}
               />
-              {errors.email && <p className="text-sm text-destructive mt-1">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-sm text-destructive mt-1">{errors.email}</p>
+              )}
             </div>
 
             <div>
-              <Label htmlFor="message" className="text-card-foreground">Message</Label>
+              <Label htmlFor="message" className="text-card-foreground">
+                Message
+              </Label>
               <Textarea
                 id="message"
-                {...register("message")}
-                rows={5}
-                className={`mt-1 ${errors.message ? 'border-destructive' : ''}`}
+                name="message"
                 placeholder="Your message here..."
+                rows={5}
+                value={formData.message}
+                onChange={handleChange}
                 disabled={isSubmitting}
+                className={errors.message ? "border-destructive" : ""}
               />
-              {errors.message && <p className="text-sm text-destructive mt-1">{errors.message.message}</p>}
+              {errors.message && (
+                <p className="text-sm text-destructive mt-1">{errors.message}</p>
+              )}
             </div>
 
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-accent text-primary-foreground hover:text-accent-foreground transition-colors duration-300 py-3 text-lg">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-primary hover:bg-accent text-primary-foreground hover:text-accent-foreground transition-colors duration-300 py-3 text-lg"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Sending...
                 </>
               ) : (
                 <>
-                  Send Message <Send className="ml-2 h-5 w-5"/>
+                  Send Message <Send className="ml-2 h-5 w-5" />
                 </>
               )}
             </Button>

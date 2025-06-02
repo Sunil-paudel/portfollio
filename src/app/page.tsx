@@ -10,7 +10,7 @@ import { AboutMeSection } from '@/components/AboutMeSection';
 import { SkillsSection } from '@/components/SkillsSection';
 import { ProjectsSection } from '@/components/ProjectsSection';
 import type { ProjectFormValues } from '@/components/modals/EditProjectModal';
-import { ContactForm } from '@/components/ContactForm';
+import ContactForm from '@/components/ContactForm';
 import { Footer } from '@/components/Footer';
 import { ChatbotWidget } from '@/components/ChatbotWidget';
 // EditProfileModal and related state/handlers removed as per request
