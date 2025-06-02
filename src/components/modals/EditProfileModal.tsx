@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from 'react';
 import { Loader2, FileText } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Schema for the form, including name, title, and profileImage
 const profileFormSchema = z.object({
@@ -174,7 +175,7 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] bg-card">
+      <DialogContent className="sm:max-w-[600px] bg-card max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-primary">Edit Profile</DialogTitle>
         </DialogHeader>
@@ -268,6 +269,3 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
     </Dialog>
   );
 }
-
-
-    
