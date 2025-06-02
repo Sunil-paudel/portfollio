@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
+import type { PortfolioData } from '@/lib/portfolio-types';
 import { defaultPortfolioData } from '@/lib/default-portfolio-data';
 import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
@@ -12,9 +12,9 @@ import { ProjectsSection } from '@/components/ProjectsSection';
 import type { ProjectFormValues } from '@/components/modals/EditProjectModal';
 import ContactForm from '@/components/ContactForm';
 import { Footer } from '@/components/Footer';
-// ChatbotWidget import and usage removed
 import { EditProjectModal } from '@/components/modals/EditProjectModal';
 import { useToast } from '@/hooks/use-toast';
+import { ChatbotWidget } from '@/components/ChatbotWidget'; 
 
 type ProjectType = PortfolioData['projects'][number] & { image?: string; imageHint?: string };
 
@@ -50,15 +50,15 @@ export default function PortfolioPage() {
             email: (parsedLSData.contactInfo?.email && parsedLSData.contactInfo.email !== "your.email@example.com" && parsedLSData.contactInfo.email !== "paudelsunil16@gmail.com") 
                    ? parsedLSData.contactInfo.email 
                    : currentDefaults.contactInfo.email,
-            phone: currentDefaults.contactInfo.phone, // Always use default phone number
+            phone: currentDefaults.contactInfo.phone, 
           },
 
           aboutMe: currentDefaults.aboutMe,
           skills: currentDefaults.skills,
           projects: currentDefaults.projects,
           
-          profileImage: currentDefaults.profileImage,
-          profileImageHint: currentDefaults.profileImageHint,
+          profileImage: parsedLSData.profileImage || currentDefaults.profileImage,
+          profileImageHint: parsedLSData.profileImageHint || currentDefaults.profileImageHint,
         };
         
         setPortfolioData(dataToSet);
@@ -148,7 +148,10 @@ export default function PortfolioPage() {
         <ContactForm />
       </main>
       <Footer />
-      {/* ChatbotWidget removed */}
+      
+      {isClient && portfolioData && (
+        <ChatbotWidget portfolioData={portfolioData} />
+      )}
 
       {isEditProjectModalOpen && (
          <EditProjectModal
