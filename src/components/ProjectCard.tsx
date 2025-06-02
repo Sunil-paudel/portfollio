@@ -17,6 +17,7 @@ interface ProjectCardProps {
 
 const MAX_DESCRIPTION_LENGTH = 150; // Adjust as needed
 
+
 export function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -33,18 +34,22 @@ export function ProjectCard({ project }: ProjectCardProps) {
   if (effectiveImageSrc && !effectiveImageSrc.startsWith('http') && !effectiveImageSrc.startsWith('/')) {
     effectiveImageSrc = `/${effectiveImageSrc}`;
   }
+  const isUniversityMobileApp = project.name === "University Mobile App (VU Project)";
+
 
   return (
     <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl overflow-hidden bg-card">
       {effectiveImageSrc && (
         <div className="relative w-full h-56">
           <Image
-            src={effectiveImageSrc}
-            alt={`Screenshot or visual representation of the ${project.name} project`}
-            fill
-            style={{ objectFit: 'cover' }}
-            data-ai-hint={project.imageHint || "project technology"}
-          />
+  src={effectiveImageSrc}
+  alt={`Screenshot or visual representation of the ${project.name} project`}
+  {...(isUniversityMobileApp ? { fill: true } : { width: 600, height: 400 })}
+  style={{ objectFit: 'cover' }}
+  data-ai-hint={project.imageHint || "project technology"}
+/>
+
+
         </div>
       )}
       <CardHeader>
