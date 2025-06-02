@@ -8,100 +8,100 @@ body {
 
 @layer base {
   :root {
-    --background: 276 60% 95%; /* #F3E5F5 */
-    --foreground: 263 15% 25%; /* #4A3F55 */
+    --background: 120 70% 5%; /* Very dark green/black */
+    --foreground: 120 100% 75%; /* Bright green */
 
-    --card: 0 0% 100%; /* White */
-    --card-foreground: 263 15% 25%;
+    --card: 120 60% 10%; /* Dark green (slightly lighter than main bg) */
+    --card-foreground: 120 100% 75%; /* Bright green */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 263 15% 25%;
+    --popover: 120 60% 10%;
+    --popover-foreground: 120 100% 75%;
 
-    --primary: 263 52% 47%; /* #673AB7 */
-    --primary-foreground: 0 0% 100%; /* White */
+    --primary: 120 100% 60%; /* Vibrant green */
+    --primary-foreground: 120 70% 5%; /* Dark for text on primary */
 
-    --secondary: 260 40% 70%; /* #A087D0 */
-    --secondary-foreground: 263 15% 25%;
+    --secondary: 120 80% 40%; /* Medium green */
+    --secondary-foreground: 120 70% 5%; /* Dark for text on secondary */
 
-    --muted: 276 60% 97%; /* #F8F2F9 */
-    --muted-foreground: 263 20% 50%; /* #726A7F */
+    --muted: 120 50% 8%; /* Even darker green for muted sections */
+    --muted-foreground: 120 80% 50%; /* Less intense green for muted text */
 
-    --accent: 260 46% 63%; /* #9575CD */
-    --accent-foreground: 0 0% 100%; /* White */
+    --accent: 120 100% 70%; /* Bright accent green */
+    --accent-foreground: 120 70% 5%; /* Dark for text on accent */
 
-    --destructive: 0 72% 51%; /* Default Red (adjusted) */
+    --destructive: 0 72% 51%; /* Default Red (can be adjusted if needed for an IT theme) */
     --destructive-foreground: 0 0% 98%; /* Light Gray */
 
-    --border: 260 30% 85%; /* #CDC1E0 */
-    --input: 260 30% 90%; /* #DAD2E8 */
-    --ring: 260 46% 63%; /* Accent color */
+    --border: 120 50% 20%; /* Dark green border */
+    --input: 120 50% 15%; /* Dark green input background */
+    --ring: 120 100% 70%; /* Accent green for focus rings */
 
     --radius: 0.5rem;
 
-    /* Chart colors - can be adjusted if charts are used */
-    --chart-1: 263 52% 47%; /* Primary */
-    --chart-2: 260 46% 63%; /* Accent */
-    --chart-3: 260 40% 70%; /* Secondary */
-    --chart-4: 263 50% 55%; 
-    --chart-5: 260 45% 75%;
+    /* Chart colors - IT theme */
+    --chart-1: 120 100% 60%; /* Primary */
+    --chart-2: 120 100% 70%; /* Accent */
+    --chart-3: 120 80% 40%; /* Secondary */
+    --chart-4: 120 90% 50%; 
+    --chart-5: 120 70% 30%;
 
-    /* Sidebar colors (based on the new theme) */
-    --sidebar-background: 263 30% 92%; /* Lighter version of background or muted, e.g., #EAE5F0 */
-    --sidebar-foreground: 263 15% 25%;
-    --sidebar-primary: 263 52% 47%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 260 46% 63%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 260 30% 80%;
-    --sidebar-ring: 260 46% 63%;
+    /* Sidebar colors (IT theme) */
+    --sidebar-background: 120 65% 7%; 
+    --sidebar-foreground: 120 100% 75%;
+    --sidebar-primary: 120 100% 60%;
+    --sidebar-primary-foreground: 120 70% 5%;
+    --sidebar-accent: 120 100% 70%;
+    --sidebar-accent-foreground: 120 70% 5%;
+    --sidebar-border: 120 50% 15%;
+    --sidebar-ring: 120 100% 70%;
   }
 
   .dark {
-    /* Define dark theme colors if needed, for now, we focus on light theme as per proposal */
-    --background: 263 15% 15%; /* Dark Purple/Gray */
-    --foreground: 276 60% 95%; /* Light Lavender */
+    /* Ensuring dark theme is consistent with the new "IT guy" theme */
+    --background: 120 70% 5%; 
+    --foreground: 120 100% 75%; 
 
-    --card: 263 15% 20%;
-    --card-foreground: 276 60% 95%;
+    --card: 120 60% 10%; 
+    --card-foreground: 120 100% 75%;
 
-    --popover: 263 15% 20%;
-    --popover-foreground: 276 60% 95%;
+    --popover: 120 60% 10%;
+    --popover-foreground: 120 100% 75%;
 
-    --primary: 263 52% 57%; /* Brighter Primary for dark mode */
-    --primary-foreground: 263 15% 15%; 
+    --primary: 120 100% 60%; 
+    --primary-foreground: 120 70% 5%; 
 
-    --secondary: 260 40% 40%; 
-    --secondary-foreground: 276 60% 95%;
+    --secondary: 120 80% 40%; 
+    --secondary-foreground: 120 70% 5%;
 
-    --muted: 263 15% 25%;
-    --muted-foreground: 263 20% 65%;
+    --muted: 120 50% 8%;
+    --muted-foreground: 120 80% 50%;
 
-    --accent: 260 46% 73%; /* Brighter Accent for dark mode */
-    --accent-foreground: 263 15% 15%;
+    --accent: 120 100% 70%; 
+    --accent-foreground: 120 70% 5%;
 
     --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 263 15% 30%;
-    --input: 263 15% 35%;
-    --ring: 260 46% 73%;
+    --border: 120 50% 20%;
+    --input: 120 50% 15%;
+    --ring: 120 100% 70%;
 
-    /* Chart colors for dark mode */
-    --chart-1: 263 52% 57%;
-    --chart-2: 260 46% 73%;
-    --chart-3: 260 40% 40%;
-    --chart-4: 263 50% 65%;
-    --chart-5: 260 45% 85%;
+    /* Chart colors for dark mode (IT theme) */
+    --chart-1: 120 100% 60%;
+    --chart-2: 120 100% 70%;
+    --chart-3: 120 80% 40%;
+    --chart-4: 120 90% 50%;
+    --chart-5: 120 70% 30%;
     
-    /* Sidebar colors for dark mode */
-    --sidebar-background: 263 15% 18%;
-    --sidebar-foreground: 276 60% 95%;
-    --sidebar-primary: 263 52% 57%;
-    --sidebar-primary-foreground: 263 15% 15%;
-    --sidebar-accent: 260 46% 73%;
-    --sidebar-accent-foreground: 263 15% 15%;
-    --sidebar-border: 263 15% 30%;
-    --sidebar-ring: 260 46% 73%;
+    /* Sidebar colors for dark mode (IT theme) */
+    --sidebar-background: 120 65% 7%;
+    --sidebar-foreground: 120 100% 75%;
+    --sidebar-primary: 120 100% 60%;
+    --sidebar-primary-foreground: 120 70% 5%;
+    --sidebar-accent: 120 100% 70%;
+    --sidebar-accent-foreground: 120 70% 5%;
+    --sidebar-border: 120 50% 15%;
+    --sidebar-ring: 120 100% 70%;
   }
 }
 
