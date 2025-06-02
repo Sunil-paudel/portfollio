@@ -36,7 +36,19 @@ export default function PortfolioPage() {
       try {
         const parsedData = JSON.parse(savedData) as PortfolioData;
         // Ensure parsedData has all necessary fields from defaultPortfolioData
+        // And ensure the name is updated to Sunil if not already set or if it's the old default.
         const validatedData = { ...defaultPortfolioData, ...parsedData };
+        
+        // If the name in localStorage is the old default "Your Name", update it.
+        if (parsedData.name === "Your Name" || !parsedData.name) {
+            validatedData.name = defaultPortfolioData.name;
+        }
+        if (parsedData.profileImage && parsedData.profileImage.includes('placehold.co') && defaultPortfolioData.profileImage) {
+          validatedData.profileImage = defaultPortfolioData.profileImage;
+          validatedData.profileImageHint = defaultPortfolioData.profileImageHint;
+        }
+
+
         validatedData.projects = parsedData.projects || defaultPortfolioData.projects;
         validatedData.skills = parsedData.skills || defaultPortfolioData.skills;
         validatedData.contactInfo = parsedData.contactInfo || defaultPortfolioData.contactInfo;
@@ -66,6 +78,7 @@ export default function PortfolioPage() {
         skills: updatedProfileData.skills,
         contactInfo: updatedProfileData.contactInfo,
         profileImage: updatedProfileData.profileImage,
+        profileImageHint: updatedProfileData.profileImageHint,
     }));
     toast({ title: "Profile Updated", description: "Your profile information has been saved." });
   };

@@ -1,3 +1,4 @@
+
 import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
 
 export const defaultPortfolioData: PortfolioData = {
@@ -45,8 +46,8 @@ export const defaultPortfolioData: PortfolioData = {
     //   { platform: "GitHub", url: "https://github.com/yourusername" }
     // ]
   },
-  name: "Your Name", // Added name field
+  name: "Sunil", // Updated name field
   title: "Full-Stack Developer | UI/UX Enthusiast", // Added title field
-  profileImage: "https://placehold.co/300x300.png?text=Profile", // Added profile image
-  profileImageHint: "person portrait"
+  profileImage: "/sunil_photo.png", // Updated profile image path
+  profileImageHint: "Sunil photo" // Updated profile image hint
 };

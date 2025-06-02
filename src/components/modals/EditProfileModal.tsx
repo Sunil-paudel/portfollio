@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useEffect } from 'react';
 
 // Schema for the form, including name, title, and profileImage
 const profileFormSchema = z.object({
@@ -18,7 +19,8 @@ const profileFormSchema = z.object({
   skills: z.string().transform(val => val.split(',').map(skill => skill.trim()).filter(skill => skill !== "")), // Comma-separated skills
   email: z.string().email("Invalid email address"),
   phone: z.string().optional(),
-  profileImage: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  profileImage: z.string().url("Must be a valid URL or a relative path e.g. /image.png").or(z.string().startsWith("/", { message: "Must be a relative path starting with / or a valid URL"})).optional().or(z.literal("")),
+  profileImageHint: z.string().max(50, "Hint too long").optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -41,6 +43,7 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
       email: profileData.contactInfo.email,
       phone: profileData.contactInfo.phone || "",
       profileImage: profileData.profileImage || "",
+      profileImageHint: profileData.profileImageHint || "",
     },
   });
 
@@ -54,6 +57,7 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
         email: profileData.contactInfo.email,
         phone: profileData.contactInfo.phone || "",
         profileImage: profileData.profileImage || "",
+        profileImageHint: profileData.profileImageHint || "",
       });
     }
   }, [profileData, reset, isOpen]);
@@ -61,7 +65,7 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
 
   const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
     const updatedData: PortfolioData = {
-      ...profileData, // Spread existing data to keep projects, etc.
+      ...profileData, 
       name: data.name,
       title: data.title,
       aboutMe: data.aboutMe,
@@ -71,6 +75,7 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
         phone: data.phone,
       },
       profileImage: data.profileImage,
+      profileImageHint: data.profileImageHint,
     };
     onSave(updatedData);
     onClose();
@@ -115,9 +120,14 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
             <Input id="phone" {...register("phone")} />
           </div>
           <div>
-            <Label htmlFor="profileImage">Profile Image URL (Optional)</Label>
-            <Input id="profileImage" {...register("profileImage")} placeholder="https://example.com/image.png" className={errors.profileImage ? 'border-destructive' : ''}/>
+            <Label htmlFor="profileImage">Profile Image URL or Path (Optional)</Label>
+            <Input id="profileImage" {...register("profileImage")} placeholder="https://example.com/image.png or /my_image.jpg" className={errors.profileImage ? 'border-destructive' : ''}/>
             {errors.profileImage && <p className="text-sm text-destructive mt-1">{errors.profileImage.message}</p>}
+          </div>
+           <div>
+            <Label htmlFor="profileImageHint">Profile Image AI Hint (Optional, 1-2 words)</Label>
+            <Input id="profileImageHint" {...register("profileImageHint")} placeholder="e.g. professional headshot" className={errors.profileImageHint ? 'border-destructive' : ''}/>
+            {errors.profileImageHint && <p className="text-sm text-destructive mt-1">{errors.profileImageHint.message}</p>}
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -130,5 +140,3 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
     </Dialog>
   );
 }
-// Need to import useEffect from react
-import { useEffect } from 'react';
