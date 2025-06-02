@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -11,7 +12,6 @@ import { Mail, Send, Loader2 } from "lucide-react";
 export default function ContactForm() {
   const { toast } = useToast();
 
-  // Controlled form state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,11 +20,8 @@ export default function ContactForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
-
-  // Simple client-side validation errors state
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
@@ -32,7 +29,6 @@ export default function ContactForm() {
     }));
   };
 
-  // Basic validation
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
     if (!formData.name.trim()) newErrors.name = "Name is required";
@@ -54,18 +50,20 @@ export default function ContactForm() {
     setIsMessageSent(false);
 
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
 
-      const result = await res.json();
+      const result = await response.json();
 
-      if (res.ok && result.success) {
+      if (response.ok && result.success) {
         toast({
           title: "Message Sent!",
-          description: result.message,
+          description: result.message || "Your message has been sent successfully. A confirmation has been sent to your email.",
         });
         setFormData({ name: "", email: "", message: "" });
         setIsMessageSent(true);
@@ -73,14 +71,15 @@ export default function ContactForm() {
       } else {
         toast({
           title: "Error Sending Message",
-          description: result.error || "Something went wrong",
+          description: result.error || "Something went wrong. Please try again.",
           variant: "destructive",
         });
       }
     } catch (error) {
+      console.error("Contact form submission error:", error);
       toast({
         title: "Network Error",
-        description: "Failed to send message. Please try again.",
+        description: "Failed to send message. Please check your connection and try again.",
         variant: "destructive",
       });
     } finally {
@@ -104,7 +103,7 @@ export default function ContactForm() {
           <form onSubmit={onSubmit} className="space-y-6" noValidate>
             {isMessageSent && (
               <p className="text-green-600 mb-4 text-center font-semibold">
-                Message has been sent!
+                Message has been sent! Check your email for confirmation.
               </p>
             )}
 
