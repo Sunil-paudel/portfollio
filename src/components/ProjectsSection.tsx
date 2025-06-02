@@ -1,4 +1,5 @@
-import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
+
+import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
 import { ProjectCard } from './ProjectCard';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, Layers } from 'lucide-react';

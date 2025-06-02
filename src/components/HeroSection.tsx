@@ -1,6 +1,6 @@
 
 import Image from 'next/image';
-import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
+import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
 

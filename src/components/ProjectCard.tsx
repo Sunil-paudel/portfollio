@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
+import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Edit3, Trash2, ChevronDown, ChevronUp } from 'lucide-react';

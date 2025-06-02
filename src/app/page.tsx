@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
+import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
 import { defaultPortfolioData } from '@/lib/default-portfolio-data';
 import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
@@ -12,8 +12,7 @@ import { ProjectsSection } from '@/components/ProjectsSection';
 import type { ProjectFormValues } from '@/components/modals/EditProjectModal';
 import ContactForm from '@/components/ContactForm';
 import { Footer } from '@/components/Footer';
-import { ChatbotWidget } from '@/components/ChatbotWidget';
-// EditProfileModal and related state/handlers removed as per request
+// ChatbotWidget import and usage removed
 import { EditProjectModal } from '@/components/modals/EditProjectModal';
 import { useToast } from '@/hooks/use-toast';
 
@@ -23,7 +22,6 @@ export default function PortfolioPage() {
   const [portfolioData, setPortfolioData] = useState<PortfolioData>(defaultPortfolioData);
   const [isClient, setIsClient] = useState(false);
 
-  // isEditProfileModalOpen state removed
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
   const [currentEditingProject, setCurrentEditingProject] = useState<ProjectType | null>(null);
 
@@ -78,8 +76,6 @@ export default function PortfolioPage() {
       localStorage.setItem('portfolioData', JSON.stringify(portfolioData));
     }
   }, [portfolioData, isClient]);
-
-  // handleSaveProfile function removed as profile editing is disabled
 
   const handleOpenAddProjectModal = () => {
     setCurrentEditingProject(null);
@@ -141,7 +137,6 @@ export default function PortfolioPage() {
             profileImage={portfolioData.profileImage}
             profileImageHint={portfolioData.profileImageHint}
         />
-        {/* onEdit prop removed from AboutMeSection */}
         <AboutMeSection aboutMe={portfolioData.aboutMe} />
         <SkillsSection skills={portfolioData.skills} />
         <ProjectsSection 
@@ -153,9 +148,7 @@ export default function PortfolioPage() {
         <ContactForm />
       </main>
       <Footer />
-      <ChatbotWidget portfolioData={portfolioData} />
-
-      {/* EditProfileModal and its conditional rendering removed */}
+      {/* ChatbotWidget removed */}
 
       {isEditProjectModalOpen && (
          <EditProjectModal

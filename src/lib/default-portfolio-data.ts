@@ -1,5 +1,5 @@
 
-import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
+import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
 
 // Function to sanitize project names for use as filenames
 const sanitizeProjectName = (name: string): string => {

@@ -1,19 +1,17 @@
 
 "use client";
 
-import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
+import type { PortfolioData } from '@/lib/portfolio-types'; // Updated import
 import { Button } from '@/components/ui/button';
 import { UserCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 
 interface AboutMeSectionProps {
   aboutMe: PortfolioData['aboutMe'];
-  // onEdit prop removed
 }
 
 const MAX_ABOUT_LENGTH = 300; // Max characters to show before truncating
 
-// onEdit parameter removed
 export function AboutMeSection({ aboutMe }: AboutMeSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -44,7 +42,6 @@ export function AboutMeSection({ aboutMe }: AboutMeSectionProps) {
               {isExpanded ? <ChevronUp className="ml-1 h-4 w-4" /> : <ChevronDown className="ml-1 h-4 w-4" />}
             </Button>
           )}
-          {/* Edit Profile button and its surrounding div removed */}
         </div>
       </div>
     </section>
