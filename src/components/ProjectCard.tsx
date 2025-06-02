@@ -6,20 +6,19 @@ import Link from 'next/link';
 import type { PortfolioData } from '@/lib/portfolio-types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Edit3, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import React, { useState } from 'react';
 
 type Project = PortfolioData['projects'][number] & { image?: string; imageHint?: string };
 
 interface ProjectCardProps {
   project: Project;
-  onEdit: (project: Project) => void;
-  onDelete: (projectName: string) => void;
+  // onEdit and onDelete props are removed as per request
 }
 
 const MAX_DESCRIPTION_LENGTH = 150; // Adjust as needed
 
-export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
+export function ProjectCard({ project }: ProjectCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleDescription = () => {
@@ -79,14 +78,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
             </Button>
           )}
         </div>
-        <div className="flex gap-2">
-          <Button variant="ghost" size="icon" onClick={() => onEdit(project)} aria-label="Edit project">
-            <Edit3 className="h-5 w-5 text-muted-foreground hover:text-primary" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={() => onDelete(project.name)} aria-label="Delete project">
-            <Trash2 className="h-5 w-5 text-muted-foreground hover:text-destructive" />
-          </Button>
-        </div>
+        {/* Edit and Delete buttons removed from here */}
       </CardFooter>
     </Card>
   );

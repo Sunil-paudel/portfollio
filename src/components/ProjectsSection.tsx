@@ -9,11 +9,10 @@ type Project = PortfolioData['projects'][number] & { image?: string; imageHint?:
 interface ProjectsSectionProps {
   projects: Project[];
   onAddProject: () => void;
-  onEditProject: (project: Project) => void;
-  onDeleteProject: (projectName: string) => void;
+  // onEditProject and onDeleteProject props removed
 }
 
-export function ProjectsSection({ projects, onAddProject, onEditProject, onDeleteProject }: ProjectsSectionProps) {
+export function ProjectsSection({ projects, onAddProject }: ProjectsSectionProps) {
   return (
     <section id="projects" className="py-16 sm:py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,8 +32,7 @@ export function ProjectsSection({ projects, onAddProject, onEditProject, onDelet
               <ProjectCard 
                 key={project.name} 
                 project={project} 
-                onEdit={onEditProject}
-                onDelete={onDeleteProject}
+                // onEdit and onDelete props removed
               />
             ))}
           </div>

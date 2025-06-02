@@ -22,7 +22,8 @@ export default function PortfolioPage() {
   const [isClient, setIsClient] = useState(false);
 
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
-  const [currentEditingProject, setCurrentEditingProject] = useState<ProjectType | null>(null);
+  // currentEditingProject state is removed as it's no longer needed without edit buttons on cards
+  // const [currentEditingProject, setCurrentEditingProject] = useState<ProjectType | null>(null);
 
   const { toast } = useToast();
 
@@ -77,14 +78,15 @@ export default function PortfolioPage() {
   }, [portfolioData, isClient]);
 
   const handleOpenAddProjectModal = () => {
-    setCurrentEditingProject(null);
+    // setCurrentEditingProject(null); // No longer needed to set currentEditingProject for "add" specifically
     setIsEditProjectModalOpen(true);
   };
 
-  const handleOpenEditProjectModal = (project: ProjectType) => {
-    setCurrentEditingProject(project);
-    setIsEditProjectModalOpen(true);
-  };
+  // handleOpenEditProjectModal is removed as it's triggered by card buttons
+  // const handleOpenEditProjectModal = (project: ProjectType) => {
+  //   setCurrentEditingProject(project);
+  //   setIsEditProjectModalOpen(true);
+  // };
 
   const handleSaveProject = (projectValues: ProjectFormValues, originalName?: string) => {
     setPortfolioData(prevData => {
@@ -98,25 +100,29 @@ export default function PortfolioPage() {
 
       let updatedProjects;
       if (originalName) { 
+        // This path for editing might not be reached anymore from the UI
+        // if edit buttons on cards are the only way to trigger an edit.
+        // However, keeping it for potential future direct edit calls or if modal is repurposed.
         updatedProjects = prevData.projects.map(p => p.name === originalName ? newProject : p);
-         toast({ title: "Project Updated", description: `"${newProject.name}" has been updated.` });
+         toast({ title: "Project Updated", description: `${newProject.name} has been updated.` });
       } else { 
         updatedProjects = [...prevData.projects, newProject];
-        toast({ title: "Project Added", description: `"${newProject.name}" has been added to your portfolio.` });
+        toast({ title: "Project Added", description: `${newProject.name} has been added to your portfolio.` });
       }
       return { ...prevData, projects: updatedProjects };
     });
   };
 
-  const handleDeleteProject = (projectName: string) => {
-    if (window.confirm(`Are you sure you want to delete the project "${projectName}"?`)) {
-      setPortfolioData(prevData => ({
-        ...prevData,
-        projects: prevData.projects.filter(p => p.name !== projectName)
-      }));
-      toast({ title: "Project Deleted", description: `"${projectName}" has been removed.`, variant: "destructive" });
-    }
-  };
+  // handleDeleteProject is removed as it's triggered by card buttons
+  // const handleDeleteProject = (projectName: string) => {
+  //   if (window.confirm(`Are you sure you want to delete the project "${projectName}"?`)) {
+  //     setPortfolioData(prevData => ({
+  //       ...prevData,
+  //       projects: prevData.projects.filter(p => p.name !== projectName)
+  //     }));
+  //     toast({ title: "Project Deleted", description: `${projectName} has been removed.`, variant: "destructive" });
+  //   }
+  // };
   
   if (!isClient) {
     return (
@@ -141,8 +147,7 @@ export default function PortfolioPage() {
         <ProjectsSection 
             projects={portfolioData.projects as ProjectType[]} 
             onAddProject={handleOpenAddProjectModal}
-            onEditProject={handleOpenEditProjectModal}
-            onDeleteProject={handleDeleteProject}
+            // onEditProject and onDeleteProject props removed
         />
         <ContactForm />
       </main>
@@ -152,7 +157,7 @@ export default function PortfolioPage() {
          <EditProjectModal
             isOpen={isEditProjectModalOpen}
             onClose={() => setIsEditProjectModalOpen(false)}
-            project={currentEditingProject}
+            project={null} // Pass null as project, modal will be for "Add" only from UI
             onSave={handleSaveProject}
         />
       )}
