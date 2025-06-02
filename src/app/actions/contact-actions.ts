@@ -29,21 +29,24 @@ export async function sendContactMessage(data: ContactFormValues): Promise<{ suc
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL } = process.env;
   const smtpSecure = process.env.SMTP_SECURE === 'true';
 
-  // Log the values for debugging
-  console.log('Attempting to read SMTP environment variables for contact form:');
+  // Enhanced logging for debugging SMTP environment variables
+  console.log('--- Checking SMTP Environment Variables for Contact Form ---');
+  console.log(`Attempting to read from .env file in project root.`);
   console.log(`SMTP_HOST: ${SMTP_HOST}`);
   console.log(`SMTP_PORT: ${SMTP_PORT}`);
   console.log(`SMTP_USER: ${SMTP_USER}`);
-  console.log(`SMTP_PASS: ${SMTP_PASS ? '****** (exists)' : undefined}`); // Don't log actual password
+  // Avoid logging the actual password, just confirm its presence
+  console.log(`SMTP_PASS: ${SMTP_PASS ? '****** (exists)' : 'NOT FOUND or empty'}`);
   console.log(`SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL}`);
-  console.log(`SMTP_SECURE (derived from env): ${smtpSecure}`);
+  console.log(`SMTP_SECURE (derived from env, should be true/false): ${smtpSecure}`);
+  console.log('--- End of SMTP Variable Check ---');
 
 
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_FROM_EMAIL) {
-    console.error('SMTP environment variables are not properly configured (check in contact-actions.ts failed).');
+    console.error('CRITICAL ERROR: One or more SMTP environment variables are missing or empty. Please check your .env file in the project root and ensure the server was restarted after the last .env modification.');
     return {
       success: false,
-      error: "Email service is not configured on the server. Admins: Please check SMTP environment variables."
+      error: "Email service is not configured on the server. Admins: Please check SMTP environment variables and restart the server if changes were made to .env."
     };
   }
 
@@ -82,9 +85,9 @@ export async function sendContactMessage(data: ContactFormValues): Promise<{ suc
     // Log the detailed error on the server and return a generic error to the client.
     let clientErrorMessage = "Failed to send message due to a server error.";
     if (error instanceof Error && error.message.includes('Invalid login')) {
-        clientErrorMessage = "Failed to send message: Authentication error with email server. Admins: Please check SMTP credentials.";
+        clientErrorMessage = "Failed to send message: Authentication error with email server. Admins: Please check SMTP credentials in .env and ensure the sending Gmail account allows access (e.g., via App Password).";
     } else if (error instanceof Error && error.message.includes('ENOTFOUND') ) {
-         clientErrorMessage = "Failed to send message: Could not connect to email server. Admins: Please check SMTP host/port.";
+         clientErrorMessage = "Failed to send message: Could not connect to email server. Admins: Please check SMTP host/port in .env.";
     }
     return { success: false, error: clientErrorMessage };
   }
