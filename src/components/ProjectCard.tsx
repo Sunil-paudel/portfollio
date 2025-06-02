@@ -34,7 +34,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   if (effectiveImageSrc && !effectiveImageSrc.startsWith('http') && !effectiveImageSrc.startsWith('/')) {
     effectiveImageSrc = `/${effectiveImageSrc}`;
   }
-  const isUniversityMobileApp = project.name === "University Mobile App (VU Project)";
+  const isFill = project.name === "University Mobile App (VU Project)" ||"Tic Tac Toe (VU Project)";
 
 
   return (
@@ -44,7 +44,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <Image
   src={effectiveImageSrc}
   alt={`Screenshot or visual representation of the ${project.name} project`}
-  {...(isUniversityMobileApp ? { fill: true } : { width: 600, height: 400 })}
+  {...(isFill ? { fill: true } : { width: 600, height: 400 })}
   style={{ objectFit: 'cover' }}
   data-ai-hint={project.imageHint || "project technology"}
 />
