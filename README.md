@@ -1,5 +1,5 @@
 
-# Sunil Paudel (Sunny) - Full-Stack Developer Portfolio
+g# Sunil Paudel (Sunny) - Full-Stack Developer Portfolio
 
 This repository contains the source code for the personal portfolio website of Sunil Paudel (Sunny), a Full-Stack Developer graduate. The portfolio showcases projects, skills, and professional experience.
 

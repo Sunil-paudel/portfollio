@@ -18,7 +18,7 @@ const projects: PortfolioData['projects'] = [
   },
   {
     name: "Portfolio Generator (Client: Ausbizz Consultant)",
-    description: "Working as a full stack developer in an agile environment to develop a portfolio generator app. Working along with other Developers, BAs and Scrum master to understand the business requirement and delivery the project at the end of sprint. The project is deployed on an AWS cloud (https://portfolio.lvtpeople.com.au)--> this project was completed during bootcamp with Aus Bizz client. Technologies in this application are React.js, Next.js 13, Adonis.js, Material UI, GitHub",
+    description: "Working as a full stack developer in an agile environment to develop a portfolio generator app. Working along with other Developers, BAs and Scrum master to understand the business requirement and delivery the project at the end of sprint. The project is deployed on an AWS cloud. Technologies in this application are React.js, Next.js 13, Adonis.js, Material UI, GitHub",
     link: undefined, 
     image: "https://placehold.co/600x400.png",
     imageHint: "portfolio app aws"
@@ -76,8 +76,8 @@ const projects: PortfolioData['projects'] = [
     name: "University Mobile App (VU Project)",
     description: "Worked as an individual to develop simple android Application using android studio for frontend and spring boot for backend. Application allow user to create account, view detail information about courses. Used Json to seed and store data. Used features like authentication and recycle View to filter.",
     link: undefined,
-    image: "https://placehold.co/600x400.png",
-    imageHint: "android springboot mobile"
+    image: "/university-mobile-app-screenshot.png",
+    imageHint: "mobile app screenshot"
   }
 ];
 
