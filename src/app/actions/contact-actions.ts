@@ -22,19 +22,28 @@ export async function sendContactMessage(data: ContactFormValues): Promise<{ suc
   }
 
   const { name, email, message } = parsedData.data;
-  const recipientEmail = "paudelsunil16@gmail.com"; 
+  const recipientEmail = "paudelsunil16@gmail.com";
 
   // Nodemailer transporter setup
   // Ensure you have set these environment variables in your .env file
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL } = process.env;
   const smtpSecure = process.env.SMTP_SECURE === 'true';
 
+  // Log the values for debugging
+  console.log('Attempting to read SMTP environment variables for contact form:');
+  console.log(`SMTP_HOST: ${SMTP_HOST}`);
+  console.log(`SMTP_PORT: ${SMTP_PORT}`);
+  console.log(`SMTP_USER: ${SMTP_USER}`);
+  console.log(`SMTP_PASS: ${SMTP_PASS ? '****** (exists)' : undefined}`); // Don't log actual password
+  console.log(`SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL}`);
+  console.log(`SMTP_SECURE (derived from env): ${smtpSecure}`);
+
 
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_FROM_EMAIL) {
-    console.error('SMTP environment variables are not properly configured.');
-    return { 
-      success: false, 
-      error: "Email service is not configured on the server. Admins: Please check SMTP environment variables." 
+    console.error('SMTP environment variables are not properly configured (check in contact-actions.ts failed).');
+    return {
+      success: false,
+      error: "Email service is not configured on the server. Admins: Please check SMTP environment variables."
     };
   }
 
@@ -43,8 +52,8 @@ export async function sendContactMessage(data: ContactFormValues): Promise<{ suc
     port: parseInt(SMTP_PORT, 10),
     secure: smtpSecure, // true for 465, false for other ports like 587 (TLS)
     auth: {
-      user: SMTP_USER, 
-      pass: SMTP_PASS, 
+      user: SMTP_USER,
+      pass: SMTP_PASS,
     },
   });
 

@@ -17,7 +17,7 @@ export function HeroSection({ name, title, profileImage, profileImageHint }: Her
         {profileImage && (
           <div className="mb-8">
             <Image
-              src={profileImage}
+              src="/resume photo.jpg"
               alt={name || 'Profile'}
               width={180}
               height={180}
