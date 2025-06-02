@@ -57,22 +57,17 @@ export default function PortfolioPage() {
           },
 
           // For aboutMe, skills, and projects, always use the current defaults (resume-based)
-          // if localStorage data exists, to reflect a full refresh from the latest resume.
+          // to reflect a full refresh from the latest resume if localStorage data exists.
           aboutMe: currentDefaults.aboutMe,
           skills: currentDefaults.skills,
           projects: currentDefaults.projects,
           
-          // Profile image handling: prefer LS data, but update if LS is placeholder and default is real image
-          profileImage: parsedLSData.profileImage ?? currentDefaults.profileImage,
-          profileImageHint: parsedLSData.profileImageHint ?? currentDefaults.profileImageHint,
+          // Profile image handling: Always use the profile image and hint specified in defaultPortfolioData.
+          // This ensures that if '/sunil_photo.png' is specified there (and exists in /public), it will be used,
+          // overriding any profile image previously stored in localStorage.
+          profileImage: currentDefaults.profileImage,
+          profileImageHint: currentDefaults.profileImageHint,
         };
-
-        // Special handling to update profile image if LS has a placeholder and currentDefaults has a real image
-        if (parsedLSData.profileImage && parsedLSData.profileImage.includes('placehold.co') && 
-            currentDefaults.profileImage && !currentDefaults.profileImage.includes('placehold.co')) {
-          dataToSet.profileImage = currentDefaults.profileImage;
-          dataToSet.profileImageHint = currentDefaults.profileImageHint;
-        }
         
         setPortfolioData(dataToSet);
       } catch (error) {
@@ -98,8 +93,8 @@ export default function PortfolioPage() {
         aboutMe: updatedProfileData.aboutMe,
         skills: updatedProfileData.skills,
         contactInfo: updatedProfileData.contactInfo,
-        profileImage: updatedProfileData.profileImage,
-        profileImageHint: updatedProfileData.profileImageHint,
+        profileImage: updatedProfileData.profileImage, // Ensure this comes from the form
+        profileImageHint: updatedProfileData.profileImageHint, // Ensure this comes from the form
     }));
     toast({ title: "Profile Updated", description: "Your profile information has been saved." });
   };
