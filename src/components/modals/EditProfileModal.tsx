@@ -54,6 +54,7 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isExtracting, setIsExtracting] = useState(false);
+  const [isExtractingSpecific, setIsExtractingSpecific] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -81,6 +82,25 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
     }
   };
 
+  const processExtractedData = (extractedData: ExtractedPortfolioData, sourceDescription: string) => {
+    if (extractedData.name) setValue("name", extractedData.name);
+    if (extractedData.title) setValue("title", extractedData.title);
+    if (extractedData.aboutMe) setValue("aboutMe", extractedData.aboutMe);
+    if (extractedData.skills && extractedData.skills.length > 0) setValue("skills", extractedData.skills.join(', '));
+    
+    if (extractedData.contactInfo) {
+      if (extractedData.contactInfo.email) setValue("email", extractedData.contactInfo.email);
+      if (extractedData.contactInfo.phone) setValue("phone", extractedData.contactInfo.phone);
+    }
+    
+    toast({ title: "Data Extracted", description: `Data from ${sourceDescription} has been pre-filled. Please review and save.` });
+
+    if (extractedData.projects && extractedData.projects.length > 0) {
+      console.log("Extracted projects:", extractedData.projects);
+      toast({ title: "Projects Found", description: `${extractedData.projects.length} project(s)/experience(s) found in ${sourceDescription}. You can add them manually using the "Add Project" button on the main page.`, duration: 7000 });
+    }
+  };
+
   const handleExtractFromResume = async () => {
     if (!selectedFile) {
       toast({ title: "No File Selected", description: "Please select a resume file (.txt or .md) to extract data from.", variant: "destructive" });
@@ -94,27 +114,7 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
       const resumeText = await selectedFile.text();
       const input: ExtractResumeDataInput = { resumeText };
       const extractedData: ExtractedPortfolioData = await extractResumeData(input);
-
-      // Merge extracted data into form fields, giving precedence to non-empty extracted values
-      if (extractedData.name) setValue("name", extractedData.name);
-      if (extractedData.title) setValue("title", extractedData.title);
-      if (extractedData.aboutMe) setValue("aboutMe", extractedData.aboutMe);
-      if (extractedData.skills && extractedData.skills.length > 0) setValue("skills", extractedData.skills.join(', '));
-      
-      if (extractedData.contactInfo) {
-        if (extractedData.contactInfo.email) setValue("email", extractedData.contactInfo.email);
-        if (extractedData.contactInfo.phone) setValue("phone", extractedData.contactInfo.phone);
-      }
-      
-      toast({ title: "Data Extracted", description: "Resume data has been pre-filled. Please review and save." });
-
-      // Note: Projects are not directly set in this form, but extracted data could be used to pre-fill Add/Edit Project modal.
-      // For now, we'll log them or the user can copy-paste.
-      if (extractedData.projects && extractedData.projects.length > 0) {
-        console.log("Extracted projects:", extractedData.projects);
-        toast({ title: "Projects Found", description: `${extractedData.projects.length} project(s)/experience(s) found in resume. You can add them manually using the "Add Project" button on the main page.`, duration: 7000 });
-      }
-
+      processExtractedData(extractedData, selectedFile.name);
     } catch (error) {
       console.error("Error extracting from resume:", error);
       toast({ title: "Extraction Failed", description: "Could not extract data from the resume. Please try again or fill manually.", variant: "destructive" });
@@ -123,21 +123,48 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
     }
   };
 
+  const handleLoadSpecificResume = async () => {
+    const specificResumePath = '/sunil resume final.txt'; // Assuming .txt extension
+    setIsExtractingSpecific(true);
+    toast({ title: "Loading Specific Resume...", description: `Attempting to load ${specificResumePath}. Ensure this file exists in your 'public' folder and is a .txt file.` });
+  
+    try {
+      const response = await fetch(specificResumePath);
+      if (!response.ok) {
+        throw new Error(`File not found or not accessible: ${response.status} ${response.statusText}. Make sure 'public/sunil resume final.txt' exists.`);
+      }
+      const resumeText = await response.text();
+      if (!resumeText.trim()) {
+          throw new Error("The specific resume file ('public/sunil resume final.txt') is empty or contains only whitespace.");
+      }
+  
+      const input: ExtractResumeDataInput = { resumeText };
+      const extractedData: ExtractedPortfolioData = await extractResumeData(input);
+      processExtractedData(extractedData, "'sunil resume final.txt'");
+  
+    } catch (error) {
+      console.error("Error loading specific resume:", error);
+      const errorMessage = error instanceof Error ? error.message : "Could not load or extract data from 'public/sunil resume final.txt'.";
+      toast({ title: "Loading Failed", description: errorMessage, variant: "destructive", duration: 7000 });
+    } finally {
+      setIsExtractingSpecific(false);
+    }
+  };
+
 
   const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
     const updatedData: PortfolioData = {
-      ...profileData, // Keep existing projects, profileImage etc. unless directly edited
+      ...profileData, 
       name: data.name,
       title: data.title,
       aboutMe: data.aboutMe,
-      skills: data.skills, // skills are already transformed to array by Zod
+      skills: data.skills, 
       contactInfo: {
         email: data.email,
         phone: data.phone,
       },
       profileImage: data.profileImage,
       profileImageHint: data.profileImageHint,
-      // projects are managed separately via page.tsx
     };
     onSave(updatedData);
     onClose();
@@ -161,20 +188,32 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
               accept=".txt,.md,text/plain,text/markdown" 
               onChange={handleFileChange} 
               className="flex-grow"
-              disabled={isExtracting}
+              disabled={isExtracting || isExtractingSpecific}
             />
             <Button 
               onClick={handleExtractFromResume} 
-              disabled={!selectedFile || isExtracting}
+              disabled={!selectedFile || isExtracting || isExtractingSpecific}
               variant="outline"
               size="sm"
             >
               {isExtracting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
-              Extract Data
+              Extract from Upload
             </Button>
           </div>
-          {selectedFile && <p className="text-xs text-muted-foreground">Selected: {selectedFile.name}</p>}
+          {selectedFile && <p className="text-xs text-muted-foreground">Selected for upload: {selectedFile.name}</p>}
           <p className="text-xs text-muted-foreground">Upload a plain text or Markdown resume to automatically fill some fields.</p>
+          
+          <Button
+            onClick={handleLoadSpecificResume}
+            disabled={isExtractingSpecific || isExtracting}
+            variant="outline"
+            className="w-full mt-2"
+            size="sm"
+          >
+            {isExtractingSpecific ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
+            Load & Extract from 'public/sunil resume final.txt'
+          </Button>
+           <p className="text-xs text-muted-foreground">Alternatively, click above to try loading directly from 'public/sunil resume final.txt'.</p>
         </div>
         <Separator className="my-4" />
 
@@ -222,10 +261,13 @@ export function EditProfileModal({ isOpen, onClose, profileData, onSave }: EditP
             <DialogClose asChild>
               <Button type="button" variant="outline" onClick={() => { setSelectedFile(null); onClose();}}>Cancel</Button>
             </DialogClose>
-            <Button type="submit" className="bg-primary hover:bg-accent text-primary-foreground" disabled={isExtracting}>Save Changes</Button>
+            <Button type="submit" className="bg-primary hover:bg-accent text-primary-foreground" disabled={isExtracting || isExtractingSpecific}>Save Changes</Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
   );
 }
+
+
+    
