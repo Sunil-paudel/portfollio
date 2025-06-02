@@ -29,7 +29,7 @@ const projects: PortfolioData['projects'] = [
   },
   {
     name: "Portfolio Generator (Client: Ausbizz Consultant)",
-    description: "Working as a full stack developer in an agile environment to develop a portfolio generator app. Working along with other Developers, BAs and Scrum master to understand the business requirement and delivery the project at the end of sprint. The project is deployed on an AWS cloud (https://portfolio.lvtpeople.com.au). Technologies in this application are React.js, Next.js 13, Adonis.js, Material UI, GitHub.",
+    description: "Working as a full stack developer in an agile environment to develop a portfolio generator app. Working along with other Developers, BAs and Scrum master to understand the business requirement and delivery the project at the end of sprint. The project is deployed on an AWS cloud (https://portfolio.lvtpeople.com.au)--> this project was completed during bootcamp with Aus Bizz client. Technologies in this application are React.js, Next.js 13, Adonis.js, Material UI, GitHub",
     link: "https://portfolio.lvtpeople.com.au",
     image: "https://placehold.co/600x400.png",
     imageHint: "portfolio app aws"
@@ -95,8 +95,8 @@ const projects: PortfolioData['projects'] = [
 export const defaultPortfolioData: PortfolioData = {
   name: "Sunil Paudel (Sunny)",
   title: "Full-Stack Developer Graduate",
-  profileImage: "https://placehold.co/180x180.png", // TEMPORARY CHANGE FOR TESTING
-  profileImageHint: "placeholder profile", // TEMPORARY CHANGE FOR TESTING
+  profileImage: "/sunil_photo.png", // Points to public/sunil_photo.png
+  profileImageHint: "professional headshot", // Updated hint
   aboutMe: "A graduate from VU majoring in enterprise application development, and sub-major in ICT. Being equipped with different skill sets in collaborative application development and have experience in exposure to real-world industry challenges. Proficient in coding and problem-solving, particularly when the solutions can be applied to real-world scenarios. Eager to embark on a career as a full-stack developer and dedicating to generating positive outcomes for organisations while maintaining a commitment on continuous self-improvement with a strong passion about learning new technology, creating efficiency, scalable and maintainable software application.",
   skills: [
     "Typescript", "JavaScript", "Java", "Python", "C#", "PHP", "Kotlin", "HTML", "CSS",
