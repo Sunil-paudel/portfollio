@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -8,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Send } from "lucide-react";
+import { Mail, Send, Loader2 } from "lucide-react";
+import { sendContactMessage } from "@/app/actions/contact-actions";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters long"),
@@ -30,14 +32,21 @@ export function ContactForm() {
   });
 
   const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Contact form submitted:", data);
-    toast({
-      title: "Message Sent!",
-      description: "Thanks for reaching out. I'll get back to you soon.",
-    });
-    reset();
+    const result = await sendContactMessage(data);
+
+    if (result.success) {
+      toast({
+        title: "Message Sent!",
+        description: result.message || "Thanks for reaching out. I'll get back to you soon.",
+      });
+      reset();
+    } else {
+      toast({
+        title: "Error Sending Message",
+        description: result.error || "Failed to send the message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -61,6 +70,7 @@ export function ContactForm() {
                 {...register("name")}
                 className={`mt-1 ${errors.name ? 'border-destructive' : ''}`}
                 placeholder="John Doe"
+                disabled={isSubmitting}
               />
               {errors.name && <p className="text-sm text-destructive mt-1">{errors.name.message}</p>}
             </div>
@@ -73,6 +83,7 @@ export function ContactForm() {
                 {...register("email")}
                 className={`mt-1 ${errors.email ? 'border-destructive' : ''}`}
                 placeholder="you@example.com"
+                disabled={isSubmitting}
               />
               {errors.email && <p className="text-sm text-destructive mt-1">{errors.email.message}</p>}
             </div>
@@ -85,12 +96,21 @@ export function ContactForm() {
                 rows={5}
                 className={`mt-1 ${errors.message ? 'border-destructive' : ''}`}
                 placeholder="Your message here..."
+                disabled={isSubmitting}
               />
               {errors.message && <p className="text-sm text-destructive mt-1">{errors.message.message}</p>}
             </div>
 
             <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-accent text-primary-foreground hover:text-accent-foreground transition-colors duration-300 py-3 text-lg">
-              {isSubmitting ? "Sending..." : <>Send Message <Send className="ml-2 h-5 w-5"/></>}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Sending...
+                </>
+              ) : (
+                <>
+                  Send Message <Send className="ml-2 h-5 w-5"/>
+                </>
+              )}
             </Button>
           </form>
         </div>
