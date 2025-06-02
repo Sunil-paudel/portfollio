@@ -9,11 +9,11 @@ import { HeroSection } from '@/components/HeroSection';
 import { AboutMeSection } from '@/components/AboutMeSection';
 import { SkillsSection } from '@/components/SkillsSection';
 import { ProjectsSection } from '@/components/ProjectsSection';
-import type { ProjectFormValues } from '@/components/modals/EditProjectModal';
+// ProjectFormValues and EditProjectModal are no longer needed as Add Project is removed
 import ContactForm from '@/components/ContactForm';
 import { Footer } from '@/components/Footer';
-import { EditProjectModal } from '@/components/modals/EditProjectModal';
-import { useToast } from '@/hooks/use-toast';
+// useToast is no longer needed for project actions
+// import { useToast } from '@/hooks/use-toast';
 
 type ProjectType = PortfolioData['projects'][number] & { image?: string; imageHint?: string };
 
@@ -21,11 +21,11 @@ export default function PortfolioPage() {
   const [portfolioData, setPortfolioData] = useState<PortfolioData>(defaultPortfolioData);
   const [isClient, setIsClient] = useState(false);
 
-  const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
-  // currentEditingProject state is removed as it's no longer needed without edit buttons on cards
-  // const [currentEditingProject, setCurrentEditingProject] = useState<ProjectType | null>(null);
-
-  const { toast } = useToast();
+  // State for EditProjectModal (for adding) is removed
+  // const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
+  
+  // useToast is removed as project add/update/delete toasts are no longer used from this page
+  // const { toast } = useToast();
 
   useEffect(() => {
     setIsClient(true);
@@ -77,51 +77,32 @@ export default function PortfolioPage() {
     }
   }, [portfolioData, isClient]);
 
-  const handleOpenAddProjectModal = () => {
-    // setCurrentEditingProject(null); // No longer needed to set currentEditingProject for "add" specifically
-    setIsEditProjectModalOpen(true);
-  };
-
-  // handleOpenEditProjectModal is removed as it's triggered by card buttons
-  // const handleOpenEditProjectModal = (project: ProjectType) => {
-  //   setCurrentEditingProject(project);
+  // handleOpenAddProjectModal is removed
+  // const handleOpenAddProjectModal = () => {
   //   setIsEditProjectModalOpen(true);
   // };
 
-  const handleSaveProject = (projectValues: ProjectFormValues, originalName?: string) => {
-    setPortfolioData(prevData => {
-      const newProject: ProjectType = {
-        name: projectValues.name,
-        description: projectValues.description,
-        link: projectValues.link,
-        image: projectValues.image || 'https://placehold.co/600x400.png',
-        imageHint: projectValues.imageHint || 'project related'
-      };
+  // handleSaveProject is removed as it was only for adding projects
+  // const handleSaveProject = (projectValues: ProjectFormValues, originalName?: string) => {
+  //   setPortfolioData(prevData => {
+  //     const newProject: ProjectType = {
+  //       name: projectValues.name,
+  //       description: projectValues.description,
+  //       link: projectValues.link,
+  //       image: projectValues.image || 'https://placehold.co/600x400.png',
+  //       imageHint: projectValues.imageHint || 'project related'
+  //     };
 
-      let updatedProjects;
-      if (originalName) { 
-        // This path for editing might not be reached anymore from the UI
-        // if edit buttons on cards are the only way to trigger an edit.
-        // However, keeping it for potential future direct edit calls or if modal is repurposed.
-        updatedProjects = prevData.projects.map(p => p.name === originalName ? newProject : p);
-         toast({ title: "Project Updated", description: `${newProject.name} has been updated.` });
-      } else { 
-        updatedProjects = [...prevData.projects, newProject];
-        toast({ title: "Project Added", description: `${newProject.name} has been added to your portfolio.` });
-      }
-      return { ...prevData, projects: updatedProjects };
-    });
-  };
-
-  // handleDeleteProject is removed as it's triggered by card buttons
-  // const handleDeleteProject = (projectName: string) => {
-  //   if (window.confirm(`Are you sure you want to delete the project "${projectName}"?`)) {
-  //     setPortfolioData(prevData => ({
-  //       ...prevData,
-  //       projects: prevData.projects.filter(p => p.name !== projectName)
-  //     }));
-  //     toast({ title: "Project Deleted", description: `${projectName} has been removed.`, variant: "destructive" });
-  //   }
+  //     let updatedProjects;
+  //     if (originalName) { 
+  //       updatedProjects = prevData.projects.map(p => p.name === originalName ? newProject : p);
+  //        toast({ title: "Project Updated", description: `${newProject.name} has been updated.` });
+  //     } else { 
+  //       updatedProjects = [...prevData.projects, newProject];
+  //       toast({ title: "Project Added", description: `${newProject.name} has been added to your portfolio.` });
+  //     }
+  //     return { ...prevData, projects: updatedProjects };
+  //   });
   // };
   
   if (!isClient) {
@@ -146,21 +127,23 @@ export default function PortfolioPage() {
         <SkillsSection skills={portfolioData.skills} />
         <ProjectsSection 
             projects={portfolioData.projects as ProjectType[]} 
-            onAddProject={handleOpenAddProjectModal}
-            // onEditProject and onDeleteProject props removed
+            // onAddProject prop removed
         />
         <ContactForm />
       </main>
       <Footer />
       
+      {/* EditProjectModal rendering is removed */}
+      {/*
       {isEditProjectModalOpen && (
          <EditProjectModal
             isOpen={isEditProjectModalOpen}
             onClose={() => setIsEditProjectModalOpen(false)}
-            project={null} // Pass null as project, modal will be for "Add" only from UI
+            project={null}
             onSave={handleSaveProject}
         />
       )}
+      */}
     </div>
   );
 }
