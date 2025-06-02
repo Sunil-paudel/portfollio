@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,7 @@ export function HeroSection({ name, title, profileImage, profileImageHint }: Her
         {profileImage && (
           <div className="mb-8">
             <Image
-              src="/resume photo.jpg"
+              src={profileImage}
               alt={name || 'Profile'}
               width={180}
               height={180}

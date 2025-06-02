@@ -95,8 +95,8 @@ const projects: PortfolioData['projects'] = [
 export const defaultPortfolioData: PortfolioData = {
   name: "Sunil Paudel (Sunny)",
   title: "Full-Stack Developer Graduate",
-  profileImage: "https://placehold.co/180x180.png", // Temporarily changed for diagnostics
-  profileImageHint: "placeholder image", 
+  profileImage: "/resume photo.jpg",
+  profileImageHint: "professional headshot",
   aboutMe: "A graduate from VU majoring in enterprise application development, and sub-major in ICT. Being equipped with different skill sets in collaborative application development and have experience in exposure to real-world industry challenges. Proficient in coding and problem-solving, particularly when the solutions can be applied to real-world scenarios. Eager to embark on a career as a full-stack developer and dedicating to generating positive outcomes for organisations while maintaining a commitment on continuous self-improvement with a strong passion about learning new technology, creating efficiency, scalable and maintainable software application.",
   skills: [
     "Typescript", "JavaScript", "Java", "Python", "C#", "PHP", "Kotlin", "HTML", "CSS",
@@ -113,4 +113,3 @@ export const defaultPortfolioData: PortfolioData = {
     phone: "0413177566",
   },
 };
-

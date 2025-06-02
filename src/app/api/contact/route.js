@@ -1,35 +1,20 @@
-
+"use server"
 import nodemailer from "nodemailer";
 import { NextResponse } from 'next/server';
 
 export async function POST(request) {
   try {
     const { name, email, message } = await request.json();
-    console.log("API Route: Received message from", name, email, message);
+    console.log("API Route: Received form data:", { name, email, message });
 
-    const { SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL } = process.env;
-
-    if (!SMTP_HOST || !SMTP_PORT || !SMTP_SECURE || !SMTP_USER || !SMTP_PASS || !SMTP_FROM_EMAIL) {
-      console.error("API Route: SMTP environment variables are not properly configured.");
-      return NextResponse.json({ success: false, error: "Server configuration error for sending email." }, { status: 500 });
-    }
-    
-    console.log("API Route: Using SMTP Config:", { SMTP_HOST, SMTP_PORT, SMTP_SECURE: SMTP_SECURE === 'true', SMTP_USER, SMTP_FROM_EMAIL });
-
+    const { GOOGLE_EMAIL, GOOGLE_PASSWORD } = process.env;
 
     const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: parseInt(SMTP_PORT, 10),
-      secure: SMTP_SECURE === 'true', // Convert string to boolean
-      auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
-      },
-      // Add timeout options for debugging if needed
-      // connectionTimeout: 10000, // 10 seconds
-      // greetingTimeout: 10000, // 10 seconds
-      // socketTimeout: 10000, // 10 seconds
-    });
+      service: 'gmail',
+ user: GOOGLE_EMAIL,
+ pass: GOOGLE_PASSWORD,
+      }
+      );
 
     // Verify transporter configuration (optional, good for debugging)
     try {
@@ -40,8 +25,8 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: "Email server verification failed. Please check SMTP credentials." }, { status: 500 });
     }
     
-    const mailToAdmin = {
-      from: `"${name}" <${SMTP_FROM_EMAIL}>`, // Display name from form, actual sender is SMTP_USER
+    const mailOptions = {
+      from: `"${name}" <${GOOGLE_EMAIL}>`, // Display name from form, actual sender is SMTP_USER
       replyTo: email, // User's email
       to: "paudelsunil16@gmail.com", // Your receiving email address
       subject: `New contact message from ${name}`,
@@ -53,10 +38,10 @@ export async function POST(request) {
              <p>${message.replace(/\n/g, '<br>')}</p>`,
     };
 
-    const mailToUser = {
-      from: `"${(SMTP_FROM_EMAIL.split('@')[0])}" <${SMTP_FROM_EMAIL}>`, // Or a generic name like "Support"
+    const mailOptionsUser = {
+      from: `"${(GOOGLE_EMAIL.split('@')[0])}" <${GOOGLE_EMAIL}>`, // Or a generic name like "Support"
       to: email, // User's email
-      subject: "Message Received - Thank you!",
+      subject: "Confirmation: Your message has been received",
       text: `Hi ${name},\n\nThank you for contacting us! We have received your message:\n\n"${message}"\n\nWe will get back to you shortly.\n\nBest regards,\nSunil's Portfolio Team`,
       html: `<p>Hi ${name},</p>
              <p>Thank you for contacting us! We have received your message:</p>
@@ -65,10 +50,10 @@ export async function POST(request) {
              <p>Best regards,<br/>Sunil's Portfolio Team</p>`,
     };
 
-    console.log("API Route: Attempting to send email to admin...");
-    await transporter.sendMail(mailToAdmin);
-    console.log("API Route: Email to admin sent. Attempting to send confirmation to user...");
-    await transporter.sendMail(mailToUser);
+    console.log("API Route: Attempting to send email...");
+    await transporter.sendMail(mailOptions);
+    console.log("API Route: Email sent. Attempting to send confirmation to user...");
+    await transporter.sendMail(mailOptionsUser);
     console.log("API Route: Confirmation email to user sent.");
 
     return NextResponse.json(
