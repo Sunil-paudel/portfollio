@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -30,36 +31,53 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     setIsClient(true);
-    // Load data from localStorage if available
+    const currentDefaults = defaultPortfolioData;
     const savedData = localStorage.getItem('portfolioData');
+
     if (savedData) {
       try {
-        const parsedData = JSON.parse(savedData) as PortfolioData;
-        // Ensure parsedData has all necessary fields from defaultPortfolioData
-        // And ensure the name is updated to Sunil if not already set or if it's the old default.
-        const validatedData = { ...defaultPortfolioData, ...parsedData };
+        const parsedLSData = JSON.parse(savedData) as PortfolioData;
         
-        // If the name in localStorage is the old default "Your Name", update it.
-        if (parsedData.name === "Your Name" || !parsedData.name) {
-            validatedData.name = defaultPortfolioData.name;
-        }
-        if (parsedData.profileImage && parsedData.profileImage.includes('placehold.co') && defaultPortfolioData.profileImage) {
-          validatedData.profileImage = defaultPortfolioData.profileImage;
-          validatedData.profileImageHint = defaultPortfolioData.profileImageHint;
-        }
+        const dataToSet: PortfolioData = {
+          ...currentDefaults, // Base with new defaults
 
+          name: (parsedLSData.name && parsedLSData.name !== "Your Name" && parsedLSData.name !== "Sunil") 
+                ? parsedLSData.name 
+                : currentDefaults.name,
 
-        validatedData.projects = parsedData.projects || defaultPortfolioData.projects;
-        validatedData.skills = parsedData.skills || defaultPortfolioData.skills;
-        validatedData.contactInfo = parsedData.contactInfo || defaultPortfolioData.contactInfo;
+          title: (parsedLSData.title && parsedLSData.title !== "Full-Stack Developer | UI/UX Enthusiast") 
+                 ? parsedLSData.title 
+                 : currentDefaults.title,
+
+          aboutMe: parsedLSData.aboutMe ?? currentDefaults.aboutMe,
+          skills: parsedLSData.skills ?? currentDefaults.skills,
+          projects: parsedLSData.projects ?? currentDefaults.projects,
+          
+          contactInfo: {
+            ...currentDefaults.contactInfo, 
+            email: (parsedLSData.contactInfo?.email && parsedLSData.contactInfo.email !== "your.email@example.com") 
+                   ? parsedLSData.contactInfo.email 
+                   : currentDefaults.contactInfo.email,
+            phone: parsedLSData.contactInfo?.phone ?? currentDefaults.contactInfo.phone,
+          },
+
+          profileImage: parsedLSData.profileImage ?? currentDefaults.profileImage,
+          profileImageHint: parsedLSData.profileImageHint ?? currentDefaults.profileImageHint,
+        };
+
+        // Special handling for profile image placeholder update (keep this logic)
+        if (parsedLSData.profileImage && parsedLSData.profileImage.includes('placehold.co') && currentDefaults.profileImage) {
+          dataToSet.profileImage = currentDefaults.profileImage;
+          dataToSet.profileImageHint = currentDefaults.profileImageHint;
+        }
         
-        setPortfolioData(validatedData);
+        setPortfolioData(dataToSet);
       } catch (error) {
         console.error("Failed to parse portfolio data from localStorage", error);
-        setPortfolioData(defaultPortfolioData);
+        setPortfolioData(currentDefaults); // Fallback to new defaults if LS is corrupt
       }
     } else {
-        setPortfolioData(defaultPortfolioData);
+      setPortfolioData(currentDefaults); // No LS data, use new defaults
     }
   }, []);
 
@@ -126,8 +144,6 @@ export default function PortfolioPage() {
   };
   
   if (!isClient) {
-    // Render a loading state or null on the server to avoid hydration mismatch
-    // This is important because localStorage is used in useEffect
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
         <div className="animate-pulse text-primary text-xl font-semibold">Loading Sunil's Portfolio...</div>
@@ -178,3 +194,4 @@ export default function PortfolioPage() {
     </div>
   );
 }
+

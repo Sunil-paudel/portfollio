@@ -2,6 +2,10 @@
 import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
 
 export const defaultPortfolioData: PortfolioData = {
+  name: "SUNIL PAUDEL", // Updated name
+  title: "Savvy IT Aspirant", // Updated title
+  profileImage: "/sunil_photo.png", 
+  profileImageHint: "Sunil photo",
   aboutMe: "I am a passionate and creative full-stack developer with a knack for building beautiful and functional web applications. I enjoy turning complex problems into simple, elegant solutions. When I'm not coding, you can find me exploring new technologies or contributing to open-source projects.",
   skills: [
     "JavaScript (ES6+)",
@@ -38,16 +42,8 @@ export const defaultPortfolioData: PortfolioData = {
     }
   ],
   contactInfo: {
-    email: "your.email@example.com",
+    email: "paudelsunil16@gmail.com", // Updated email
     phone: "+1 (555) 123-4567",
-    // Add other contact details like LinkedIn, GitHub if desired
-    // socialLinks: [
-    //   { platform: "LinkedIn", url: "https://linkedin.com/in/yourprofile" },
-    //   { platform: "GitHub", url: "https://github.com/yourusername" }
-    // ]
   },
-  name: "Sunil", // Updated name field
-  title: "Full-Stack Developer | UI/UX Enthusiast", // Added title field
-  profileImage: "/sunil_photo.png", // Updated profile image path
-  profileImageHint: "Sunil photo" // Updated profile image hint
 };
+
