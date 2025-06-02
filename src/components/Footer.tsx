@@ -1,5 +1,5 @@
 
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 
 export function Footer() {
@@ -15,11 +15,6 @@ export function Footer() {
           <Link href="https://www.linkedin.com/in/sunil-paudel-143043184/" passHref legacyBehavior>
             <a target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
               <Linkedin className="h-6 w-6 hover:text-accent transition-colors" />
-            </a>
-          </Link>
-          <Link href="#" passHref legacyBehavior>
-            <a target="_blank" rel="noopener noreferrer" aria-label="Twitter Profile">
-              <Twitter className="h-6 w-6 hover:text-accent transition-colors" />
             </a>
           </Link>
         </div>
