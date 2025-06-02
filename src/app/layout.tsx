@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -7,9 +8,63 @@ import { Providers } from '@/components/providers';
 // If you are using the Inter font, you can uncomment this and configure it.
 // const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
+// Replace with your actual deployed domain
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+const profileImageUrl = `${siteUrl}/resume photo.jpg`; // Assuming resume photo.jpg is in /public
+
 export const metadata: Metadata = {
-  title: "Sunil's Portfolio",
-  description: 'My personal portfolio website built with Next.js and Tailwind CSS.',
+  metadataBase: new URL(siteUrl), // Important for resolving relative image paths for OG
+  title: {
+    default: "Sunil Paudel (Sunny) | Full-Stack Developer Portfolio",
+    template: "%s | Sunil Paudel (Sunny)",
+  },
+  description: 'Explore the portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate specializing in Next.js, React, TypeScript, and modern web technologies. View projects, skills, and professional experience.',
+  keywords: ['Sunil Paudel', 'Sunny', 'Full-Stack Developer', 'Web Developer', 'Next.js', 'React', 'JavaScript', 'TypeScript', 'Node.js', 'Portfolio', 'Software Engineer', 'Australia', 'IT Graduate'],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: '/', // Sets the canonical URL for the homepage
+  },
+  openGraph: {
+    title: "Sunil Paudel (Sunny) | Full-Stack Developer Portfolio",
+    description: 'Explore the portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate specializing in Next.js, React, TypeScript, and modern web technologies.',
+    url: '/',
+    siteName: "Sunil Paudel (Sunny)'s Portfolio",
+    images: [
+      {
+        url: profileImageUrl, // Must be an absolute URL
+        width: 800, // Provide image dimensions
+        height: 600,
+        alt: 'Sunil Paudel (Sunny) - Profile Picture',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Sunil Paudel (Sunny) | Full-Stack Developer Portfolio",
+    description: 'Explore the portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate specializing in Next.js, React, TypeScript, and modern web technologies.',
+    images: [profileImageUrl], // Must be an absolute URL
+    // creator: '@yourTwitterHandle', // Optional: Add your Twitter handle
+  },
+  // Optional: Add more specific manifest if you plan to make it a PWA
+  // manifest: "/manifest.json",
+  // Optional: Add icons
+  // icons: {
+  //   icon: '/favicon.ico',
+  //   shortcut: '/favicon-16x16.png',
+  //   apple: '/apple-touch-icon.png',
+  // },
 };
 
 export default function RootLayout({

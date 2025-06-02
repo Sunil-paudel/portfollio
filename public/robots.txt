@@ -1,0 +1,8 @@
+
+User-agent: *
+Allow: /
+
+# Sitemap: [YOUR_FULL_SITEMAP_URL_HERE] 
+# Example: Sitemap: https://www.yourdomain.com/sitemap.xml
+# You can generate a sitemap.xml file and add its URL here.
+# For a single page application like this, a sitemap is less critical but still good practice.

@@ -13,7 +13,6 @@ type Project = PortfolioData['projects'][number] & { image?: string; imageHint?:
 
 interface ProjectCardProps {
   project: Project;
-  // onEdit and onDelete props are removed as per request
 }
 
 const MAX_DESCRIPTION_LENGTH = 150; // Adjust as needed
@@ -36,7 +35,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="relative w-full h-56">
           <Image
             src={project.image}
-            alt={project.name}
+            alt={`Screenshot or visual representation of the ${project.name} project`}
             layout="fill"
             objectFit="cover"
             data-ai-hint={project.imageHint || "project technology"}
@@ -78,7 +77,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </Button>
           )}
         </div>
-        {/* Edit and Delete buttons removed from here */}
       </CardFooter>
     </Card>
   );

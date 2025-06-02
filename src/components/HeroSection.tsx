@@ -12,6 +12,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ name, title, profileImage, profileImageHint }: HeroSectionProps) {
+  const heroName = name || "Your Name";
   return (
     <section className="min-h-[calc(100vh-88px)] flex items-center justify-center py-16 bg-gradient-to-br from-background to-muted text-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,7 +20,7 @@ export function HeroSection({ name, title, profileImage, profileImageHint }: Her
           <div className="mb-8">
             <Image
               src={profileImage}
-              alt={name || 'Profile'}
+              alt={`${heroName} - Profile Picture`}
               width={180}
               height={180}
               className="rounded-full mx-auto shadow-xl border-4 border-primary object-cover"
@@ -29,7 +30,7 @@ export function HeroSection({ name, title, profileImage, profileImageHint }: Her
           </div>
         )}
         <h1 className="text-5xl md:text-7xl font-headline font-bold text-primary mb-4">
-          {name || "Your Name"}
+          {heroName}
         </h1>
         <p className="text-xl md:text-2xl text-foreground mb-8 max-w-3xl mx-auto">
           {title || "Your Professional Title"}
