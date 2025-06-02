@@ -12,7 +12,7 @@ export const PortfolioDataSchema = z.object({
     name: z.string().describe('The name of the project.'),
     description: z.string().describe('A detailed description of the project.'),
     link: z.string().url().optional().describe('A link to the project.'),
-    image: z.string().url().optional().describe('URL to an image representing the project.'),
+    image: z.string().optional().describe('URL (e.g., https://...) or relative path from public folder (e.g., /my-image.png or my-image.png) to an image representing the project.'),
     imageHint: z.string().optional().describe('Hint for AI image generation for project image.'),
   })).describe('A list of projects in the portfolio.'),
   contactInfo: z.object({

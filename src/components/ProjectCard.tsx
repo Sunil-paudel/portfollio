@@ -29,15 +29,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
     ? project.description
     : `${project.description.substring(0, MAX_DESCRIPTION_LENGTH)}...`;
 
+  let effectiveImageSrc = project.image;
+  if (effectiveImageSrc && !effectiveImageSrc.startsWith('http') && !effectiveImageSrc.startsWith('/')) {
+    effectiveImageSrc = `/${effectiveImageSrc}`;
+  }
+
   return (
     <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl overflow-hidden bg-card">
-      {project.image && (
+      {effectiveImageSrc && (
         <div className="relative w-full h-56">
           <Image
-            src={project.image}
+            src={effectiveImageSrc}
             alt={`Screenshot or visual representation of the ${project.name} project`}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }}
             data-ai-hint={project.imageHint || "project technology"}
           />
         </div>
