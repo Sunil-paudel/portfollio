@@ -117,7 +117,7 @@ export default function PortfolioPage() {
     // This is important because localStorage is used in useEffect
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <div className="animate-pulse text-primary text-xl font-semibold">Loading PortfolioPilot...</div>
+        <div className="animate-pulse text-primary text-xl font-semibold">Loading Sunil's Portfolio...</div>
       </div>
     );
   }

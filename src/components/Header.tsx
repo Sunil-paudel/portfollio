@@ -7,7 +7,7 @@ export function Header() {
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary hover:text-accent transition-colors">
           <Briefcase className="w-8 h-8" />
-          <span className="font-headline">PortfolioPilot</span>
+          <span className="font-headline">Sunil's Portfolio</span>
         </Link>
         <nav className="space-x-4">
           <a href="#about" className="text-foreground hover:text-primary transition-colors">About</a>

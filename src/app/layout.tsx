@@ -8,7 +8,7 @@ import { Providers } from '@/components/providers';
 // const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'PortfolioPilot',
+  title: "Sunil's Portfolio",
   description: 'My personal portfolio website built with Next.js and Tailwind CSS.',
 };
 

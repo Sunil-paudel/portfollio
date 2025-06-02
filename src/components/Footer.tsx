@@ -17,7 +17,7 @@ export function Footer() {
           </Link>
         </div>
         <p className="text-sm">
-          &copy; {new Date().getFullYear()} PortfolioPilot. All rights reserved.
+          &copy; {new Date().getFullYear()} Sunil's Portfolio. All rights reserved.
         </p>
         <p className="text-xs mt-1">
           Built with Next.js and Tailwind CSS.
