@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="py-8 bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="flex justify-center space-x-6 mb-4">
-          <Link href="https://github.com/sunilpaudel7" passHref legacyBehavior>
+          <Link href="https://github.com/Sunil-paudel" passHref legacyBehavior>
             <a target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
               <Github className="h-6 w-6 hover:text-accent transition-colors" />
             </a>
