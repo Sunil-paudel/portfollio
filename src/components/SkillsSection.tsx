@@ -1,10 +1,17 @@
+
+"use client";
+
+import React, { useState } from 'react';
 import type { PortfolioData } from '@/ai/flows/portfolio-chatbot';
 import { Badge } from '@/components/ui/badge';
-import { Code2, Database, Cloud, Paintbrush, Smartphone, Server, Settings, Zap, Lightbulb } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Code2, Database, Cloud, Paintbrush, Smartphone, Server, Settings, Zap, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface SkillsSectionProps {
   skills: PortfolioData['skills'];
 }
+
+const INITIAL_SKILLS_LIMIT = 12;
 
 const getSkillIcon = (skill: string) => {
   const lowerSkill = skill.toLowerCase();
@@ -20,6 +27,14 @@ const getSkillIcon = (skill: string) => {
 };
 
 export function SkillsSection({ skills }: SkillsSectionProps) {
+  const [showAllSkills, setShowAllSkills] = useState(false);
+
+  const skillsToShow = showAllSkills ? skills : skills.slice(0, INITIAL_SKILLS_LIMIT);
+
+  const toggleShowAllSkills = () => {
+    setShowAllSkills(!showAllSkills);
+  };
+
   return (
     <section id="skills" className="py-16 sm:py-24 bg-muted">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,10 +44,10 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
           </h2>
         </div>
         <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-4">
-          {skills.map((skill, index) => (
-            <Badge 
-              key={index} 
-              variant="secondary" 
+          {skillsToShow.map((skill, index) => (
+            <Badge
+              key={index}
+              variant="secondary"
               className="text-lg px-6 py-3 rounded-lg shadow-md bg-card text-card-foreground border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-default flex items-center"
             >
               {getSkillIcon(skill)}
@@ -40,6 +55,25 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
             </Badge>
           ))}
         </div>
+        {skills.length > INITIAL_SKILLS_LIMIT && (
+          <div className="text-center mt-8">
+            <Button
+              onClick={toggleShowAllSkills}
+              variant="outline"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              {showAllSkills ? (
+                <>
+                  See Less <ChevronUp className="ml-2 h-5 w-5" />
+                </>
+              ) : (
+                <>
+                  See More <ChevronDown className="ml-2 h-5 w-5" />
+                </>
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );
