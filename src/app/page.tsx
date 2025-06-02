@@ -13,7 +13,7 @@ import type { ProjectFormValues } from '@/components/modals/EditProjectModal';
 import { ContactForm } from '@/components/ContactForm';
 import { Footer } from '@/components/Footer';
 import { ChatbotWidget } from '@/components/ChatbotWidget';
-import { EditProfileModal } from '@/components/modals/EditProfileModal';
+// EditProfileModal and related state/handlers removed as per request
 import { EditProjectModal } from '@/components/modals/EditProjectModal';
 import { useToast } from '@/hooks/use-toast';
 
@@ -23,7 +23,7 @@ export default function PortfolioPage() {
   const [portfolioData, setPortfolioData] = useState<PortfolioData>(defaultPortfolioData);
   const [isClient, setIsClient] = useState(false);
 
-  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
+  // isEditProfileModalOpen state removed
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
   const [currentEditingProject, setCurrentEditingProject] = useState<ProjectType | null>(null);
 
@@ -39,7 +39,6 @@ export default function PortfolioPage() {
         const parsedLSData = JSON.parse(savedData) as PortfolioData;
         
         const dataToSet: PortfolioData = {
-          // For name, title, and contact info, preserve user edits unless they match old defaults
           name: (parsedLSData.name && parsedLSData.name !== "Your Name" && parsedLSData.name !== "Sunil" && parsedLSData.name !== "SUNIL PAUDEL" && parsedLSData.name !== "Sunil Paudel (Sunny)") 
                 ? parsedLSData.name 
                 : currentDefaults.name,
@@ -53,18 +52,13 @@ export default function PortfolioPage() {
             email: (parsedLSData.contactInfo?.email && parsedLSData.contactInfo.email !== "your.email@example.com" && parsedLSData.contactInfo.email !== "paudelsunil16@gmail.com") 
                    ? parsedLSData.contactInfo.email 
                    : currentDefaults.contactInfo.email,
-            phone: parsedLSData.contactInfo?.phone ?? currentDefaults.contactInfo.phone,
+            phone: currentDefaults.contactInfo.phone, // Always use default phone number
           },
 
-          // For aboutMe, skills, and projects, always use the current defaults (resume-based)
-          // to reflect a full refresh from the latest resume if localStorage data exists.
           aboutMe: currentDefaults.aboutMe,
           skills: currentDefaults.skills,
           projects: currentDefaults.projects,
           
-          // Profile image handling: Always use the profile image and hint specified in defaultPortfolioData.
-          // This ensures that if '/sunil_photo.png' is specified there (and exists in /public), it will be used,
-          // overriding any profile image previously stored in localStorage.
           profileImage: currentDefaults.profileImage,
           profileImageHint: currentDefaults.profileImageHint,
         };
@@ -72,10 +66,10 @@ export default function PortfolioPage() {
         setPortfolioData(dataToSet);
       } catch (error) {
         console.error("Failed to parse portfolio data from localStorage", error);
-        setPortfolioData(currentDefaults); // Fallback to new defaults if LS is corrupt
+        setPortfolioData(currentDefaults); 
       }
     } else {
-      setPortfolioData(currentDefaults); // No LS data, use new defaults (resume data)
+      setPortfolioData(currentDefaults); 
     }
   }, []);
 
@@ -85,19 +79,7 @@ export default function PortfolioPage() {
     }
   }, [portfolioData, isClient]);
 
-  const handleSaveProfile = (updatedProfileData: PortfolioData) => {
-    setPortfolioData(prevData => ({
-        ...prevData,
-        name: updatedProfileData.name,
-        title: updatedProfileData.title,
-        aboutMe: updatedProfileData.aboutMe,
-        skills: updatedProfileData.skills,
-        contactInfo: updatedProfileData.contactInfo,
-        profileImage: updatedProfileData.profileImage, // Ensure this comes from the form
-        profileImageHint: updatedProfileData.profileImageHint, // Ensure this comes from the form
-    }));
-    toast({ title: "Profile Updated", description: "Your profile information has been saved." });
-  };
+  // handleSaveProfile function removed as profile editing is disabled
 
   const handleOpenAddProjectModal = () => {
     setCurrentEditingProject(null);
@@ -120,10 +102,10 @@ export default function PortfolioPage() {
       };
 
       let updatedProjects;
-      if (originalName) { // Editing existing project
+      if (originalName) { 
         updatedProjects = prevData.projects.map(p => p.name === originalName ? newProject : p);
          toast({ title: "Project Updated", description: `"${newProject.name}" has been updated.` });
-      } else { // Adding new project
+      } else { 
         updatedProjects = [...prevData.projects, newProject];
         toast({ title: "Project Added", description: `"${newProject.name}" has been added to your portfolio.` });
       }
@@ -159,7 +141,8 @@ export default function PortfolioPage() {
             profileImage={portfolioData.profileImage}
             profileImageHint={portfolioData.profileImageHint}
         />
-        <AboutMeSection aboutMe={portfolioData.aboutMe} onEdit={() => setIsEditProfileModalOpen(true)} />
+        {/* onEdit prop removed from AboutMeSection */}
+        <AboutMeSection aboutMe={portfolioData.aboutMe} />
         <SkillsSection skills={portfolioData.skills} />
         <ProjectsSection 
             projects={portfolioData.projects as ProjectType[]} 
@@ -172,14 +155,7 @@ export default function PortfolioPage() {
       <Footer />
       <ChatbotWidget portfolioData={portfolioData} />
 
-      {isEditProfileModalOpen && (
-        <EditProfileModal
-          isOpen={isEditProfileModalOpen}
-          onClose={() => setIsEditProfileModalOpen(false)}
-          profileData={portfolioData}
-          onSave={handleSaveProfile}
-        />
-      )}
+      {/* EditProfileModal and its conditional rendering removed */}
 
       {isEditProjectModalOpen && (
          <EditProjectModal

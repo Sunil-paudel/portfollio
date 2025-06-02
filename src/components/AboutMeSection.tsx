@@ -8,12 +8,13 @@ import { useState } from 'react';
 
 interface AboutMeSectionProps {
   aboutMe: PortfolioData['aboutMe'];
-  onEdit: () => void;
+  // onEdit prop removed
 }
 
 const MAX_ABOUT_LENGTH = 300; // Max characters to show before truncating
 
-export function AboutMeSection({ aboutMe, onEdit }: AboutMeSectionProps) {
+// onEdit parameter removed
+export function AboutMeSection({ aboutMe }: AboutMeSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const needsTruncation = aboutMe.length > MAX_ABOUT_LENGTH;
@@ -43,11 +44,7 @@ export function AboutMeSection({ aboutMe, onEdit }: AboutMeSectionProps) {
               {isExpanded ? <ChevronUp className="ml-1 h-4 w-4" /> : <ChevronDown className="ml-1 h-4 w-4" />}
             </Button>
           )}
-          <div className="mt-6 sm:mt-8 text-right">
-            <Button onClick={onEdit} variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Edit Profile
-            </Button>
-          </div>
+          {/* Edit Profile button and its surrounding div removed */}
         </div>
       </div>
     </section>
