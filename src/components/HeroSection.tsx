@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import type { PortfolioData } from '@/lib/portfolio-types';
 import { Button } from '@/components/ui/button';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Download } from 'lucide-react';
 
 interface HeroSectionProps {
   name: PortfolioData['name'];
@@ -35,11 +35,18 @@ export function HeroSection({ name, title, profileImage, profileImageHint }: Her
         <p className="text-xl md:text-2xl text-foreground mb-8 max-w-3xl mx-auto">
           {title || "Your Professional Title"}
         </p>
-        <Button asChild size="lg" className="bg-accent hover:bg-primary text-accent-foreground hover:text-primary-foreground transition-all duration-300 transform hover:scale-105 shadow-lg">
-          <a href="#contact">
-            Get in Touch <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
-          </a>
-        </Button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Button asChild size="lg" className="bg-accent hover:bg-primary text-accent-foreground hover:text-primary-foreground transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <a href="#contact">
+              Get in Touch <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <a href="/sunil resume final.txt" download="Sunil_Paudel_Resume.txt">
+              Download Resume <Download className="ml-2 h-5 w-5" />
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
