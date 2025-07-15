@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     default: "Sunil Paudel (Sunny) | Full-Stack Developer Portfolio",
     template: "%s | Sunil Paudel (Sunny)",
   },
-  description: 'Explore the portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate specializing in Next.js, React, TypeScript, and modern web technologies. View projects, skills, and professional experience.',
-  keywords: ['Sunil Paudel', 'Sunny', 'Full-Stack Developer', 'Web Developer', 'Next.js', 'React', 'JavaScript', 'TypeScript', 'Node.js', 'Portfolio', 'Software Engineer', 'Australia', 'IT Graduate'],
+  description: 'The professional portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate specializing in Next.js, React, TypeScript, and modern web technologies. View projects, skills, and professional experience.',
+  keywords: ['Sunil Paudel', 'Sunny', 'Sunil Paudel Portfolio', 'Full-Stack Developer', 'Web Developer', 'Next.js', 'React', 'JavaScript', 'TypeScript', 'Node.js', 'Portfolio', 'Software Engineer', 'Australia', 'IT Graduate'],
   robots: {
     index: true,
     follow: true,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Sunil Paudel (Sunny) | Full-Stack Developer Portfolio",
-    description: 'Explore the portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate specializing in Next.js, React, TypeScript, and modern web technologies.',
+    description: 'Explore the portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate.',
     url: '/',
     siteName: "Sunil Paudel (Sunny)'s Portfolio",
     images: [
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Sunil Paudel (Sunny) | Full-Stack Developer Portfolio",
-    description: 'Explore the portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer graduate specializing in Next.js, React, TypeScript, and modern web technologies.',
+    description: 'The professional portfolio of Sunil Paudel (Sunny), a skilled Full-Stack Developer.',
     images: [profileImageUrl], // Must be an absolute URL
     // creator: '@yourTwitterHandle', // Optional: Add your Twitter handle
   },

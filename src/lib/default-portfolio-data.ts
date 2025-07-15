@@ -70,21 +70,21 @@ const projects: PortfolioData['projects'] = [
     name: "University Mobile App (VU Project)",
     description: "Worked as an individual to develop simple android Application using android studio for frontend and spring boot for backend. Application allow user to create account, view detail information about courses. Used Json to seed and store data. Used features like authentication and recycle View to filter.",
     link: undefined,
-    image: "/university-mobile-app-screenshot.png",
+    image: "/10.png",
     imageHint: "mobile app screenshot"
   },
   {
     name: 'SuperrCloth',
     description: 'SuperrCloth is an online clothing store offering the latest trends and styles for everyone. We provide high-quality apparel at affordable prices, ensuring you look your best for any occasion.',
     link: 'https://superrcloth.vercel.app',
-    image: '/1.png',
+    image: '/11.png',
     imageHint: 'fashion website'
   },
   {
     name: 'SuperrTutor',
     description: 'SuperrTutor is a platform for booking tutors for various subjects. Whether you need help with math, science, or languages, our qualified tutors are here to help you achieve your academic goals.',
     link: 'https://superrtutor.vercel.app',
-    image: '/2.png',
+    image: '/12.png',
     imageHint: 'tutoring website'
   },
   {
@@ -98,7 +98,7 @@ const projects: PortfolioData['projects'] = [
     name: 'JobSeekerHeaven',
     description: 'JobSeekerHeaven helps you craft the perfect job application. It compares your resume to the job description, suggests keywords, and helps generate targeted resumes, cover letters, and follow-up emails to give you an edge.',
     link: 'https://jobseekerheaven.vercel.app',
-    image: '/3.png',
+    image: '/13.png',
     imageHint: 'resume analysis'
   }
 ];
