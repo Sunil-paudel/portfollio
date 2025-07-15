@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import type { PortfolioData } from '@/lib/portfolio-types';
 import { Button } from '@/components/ui/button';
@@ -42,7 +41,7 @@ export function HeroSection({ name, title, profileImage, profileImageHint }: Her
             </a>
           </Button>
           <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:scale-105 shadow-lg">
-            <a href="/sunil resume final.txt" download="Sunil_Paudel_Resume.txt">
+            <a href="/Sunil_Paudel_Resume.pdf" download="Sunil_Paudel_Resume.pdf">
               Download Resume <Download className="ml-2 h-5 w-5" />
             </a>
           </Button>
