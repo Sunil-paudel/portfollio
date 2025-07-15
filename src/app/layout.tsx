@@ -8,8 +8,8 @@ import { Providers } from '@/components/providers';
 // If you are using the Inter font, you can uncomment this and configure it.
 // const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
-// Replace with your actual deployed domain
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+// Your actual deployed domain
+const siteUrl = 'https://sunilpaudel.vercel.app';
 const profileImageUrl = `${siteUrl}/resume photo.jpg`; // Assuming resume photo.jpg is in /public
 
 export const metadata: Metadata = {
