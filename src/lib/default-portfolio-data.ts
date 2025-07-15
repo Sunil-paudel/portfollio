@@ -70,8 +70,36 @@ const projects: PortfolioData['projects'] = [
     name: "University Mobile App (VU Project)",
     description: "Worked as an individual to develop simple android Application using android studio for frontend and spring boot for backend. Application allow user to create account, view detail information about courses. Used Json to seed and store data. Used features like authentication and recycle View to filter.",
     link: undefined,
-    image: "10.png",
+    image: "/university-mobile-app-screenshot.png",
     imageHint: "mobile app screenshot"
+  },
+  {
+    name: 'SuperrCloth',
+    description: 'SuperrCloth is an online clothing store offering the latest trends and styles for everyone. We provide high-quality apparel at affordable prices, ensuring you look your best for any occasion.',
+    link: 'https://superrcloth.vercel.app',
+    image: '/1.png',
+    imageHint: 'fashion website'
+  },
+  {
+    name: 'SuperrTutor',
+    description: 'SuperrTutor is a platform for booking tutors for various subjects. Whether you need help with math, science, or languages, our qualified tutors are here to help you achieve your academic goals.',
+    link: 'https://superrtutor.vercel.app',
+    image: '/2.png',
+    imageHint: 'tutoring website'
+  },
+  {
+    name: 'Lodger',
+    description: 'Lodger is an Airbnb clone that helps you find unique places to stay. From apartments to villas, discover amazing accommodations for your next trip.',
+    link: undefined,
+    image: 'https://images.unsplash.com/photo-1630699144057-7d5249ef4e6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNHx8YXBwYXJ0bWVudHN8ZW58MHx8fHwxNzUxNzExNzk3fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageHint: 'apartment interior'
+  },
+  {
+    name: 'JobSeekerHeaven',
+    description: 'JobSeekerHeaven helps you craft the perfect job application. It compares your resume to the job description, suggests keywords, and helps generate targeted resumes, cover letters, and follow-up emails to give you an edge.',
+    link: 'https://jobseekerheaven.vercel.app',
+    image: '/3.png',
+    imageHint: 'resume analysis'
   }
 ];
 
